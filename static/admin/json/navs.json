@@ -1,0 +1,64 @@
+{
+	"contentManagement": [
+		{
+			"title": "我的邮箱",
+			"icon": "&#xe630;",
+			"href": "javascript:;",
+			"spread": false,
+			"children": [
+				{
+					"title": "收件箱",
+					"icon": "&#xe630;",
+					"href": "/admin/postbox/lst",
+					"spread": false
+				},{
+					"title": "发信",
+					"icon": "&#xe632;",
+					"href": "/admin/user/lst",
+					"spread": false
+				},{
+					"title": "已处理",
+					"icon": "&#xe63c;",
+					"href": "/admin/user/lst",
+					"spread": false
+				}
+			]
+		},{
+			"title": "用户管理",
+			"icon": "&#xe612;",
+			"href": "javascript:;",
+			"spread": false,
+			"children": [
+				{
+					"title": "用户列表",
+					"icon": "&#xe612;",
+					"href": "/admin/user/lst",
+					"spread": false
+				}
+			]
+		}
+	],
+	"memberCenter": [
+		{
+			"title": "用户中心",
+			"icon": "&#xe612;",
+			"href": "/admin/user/lst",
+			"spread": false
+		}
+	],
+	"systemeSttings": [
+		{
+			"title": "系统基本参数",
+			"icon": "&#xe631;",
+			"href": "/admin/config/lst",
+			"spread": false
+		},{
+			"title": "登录错误日志",
+			"icon": "&#xe631;",
+			"href": "/admin/loginerror/lst",
+			"spread": false
+		}
+	]
+}
+
+

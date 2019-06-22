@@ -1,0 +1,45 @@
+.pagination {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 10px 0;
+    font-size: 0;
+}.pagination .disabled {
+     display: none;
+ }.pagination .active, .pagination .disabled {
+      width: 39px;
+  }.pagination li {
+       display: inline-block;
+       vertical-align: middle;
+       border: 1px solid #e2e2e2;
+       height: 28px;
+       line-height: 28px;
+       margin: 0 -1px 5px 0;
+       background-color: #fff;
+       color: #333;
+       font-size: 12px;
+       list-style: none;
+       text-align: center;
+   }
+.pagination .active {
+    background-color: #009688;
+    color: #fff;
+    border: 1px solid #009688;
+}
+.pagination li a {
+    display: inline-block;
+    height: 28px;
+    width: 39px;
+    font-size: 12px;
+}
+
+/*公共样式*/
+.f_left{float: left;}
+.f_right{float: right;}
+.clear:after{clear: both;height: 0px;overflow: hidden;content: ".";display: block;}
+
+/*上传附件样式*/
+.file_border{border: 1px solid #e6e6e6;padding: 20px;position: relative;margin-right: 20px;}
+/*.file_border:hover{border: 1px solid #2c3e50;}*/
+.file_border .layui-icon{cursor: pointer;position: absolute;top:-15px;
+    right:-10px;font-size: 25px;}
+
