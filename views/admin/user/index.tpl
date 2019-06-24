@@ -28,15 +28,29 @@
                 <tr>
                     <th style="width: 30px;"><input type="checkbox" lay-filter="allselector" lay-skin="primary" id="qx"></th>
                     <th>ID</th>
-                    <th>头像</th>
-                    <th>排序</th>
+                    <th>用户名</th>
+                    <th>状态</th>
                     <th>添加时间</th>
-                    <th>修改时间</th>
-                    <th>单头像</th>
+                    <th>最后登录时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
+
+                {{range $k,$v := .data}}
+                    <tr>
+                        <td><input type="checkbox" name="ids[]" value="{{$v.Id}}" lay-skin="primary"></td>
+                        <td align="center">{{$v.Id}}</td>
+                        <td align="center">{{$v.Username}}</td>
+                        <td align="center">{{$v.status}}| {{if $v.status}}正常{{else}}冻结{{end}}</td>
+                        <td align="center">{{$v.addtime}}</td>
+                        <td align="center">{{$v.last_login_time}}</td>
+                        <td align="center">
+                            <a href="javascript:;" onclick="edit('{{$v.id}}')" data-name="" data-opt="edit" class="layui-btn layui-btn-xs">编辑</a>
+                            <a href="javascript:;" onclick="ajaxDel('{{$v.id}}')" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
+                        </td>
+                    </tr>
+                {{end}}
                 {volist name="data" id="v"}
                 <tr>
                     <td><input type="checkbox" name="ids[]" value="{$v['id']}" lay-skin="primary"></td>
