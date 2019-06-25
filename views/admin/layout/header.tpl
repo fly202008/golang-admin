@@ -6,7 +6,7 @@
     <title>{{.t.Title}}</title>
     <link rel="stylesheet" type="text/css" href="/static/plus/layui/css/layui.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/common.css" />
-    <script type="text/javascript" src="/static/plus/jquery-v1.7.2.js"></script>
+    <script type="text/javascript" src="/static/plus/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/static/plus/DatePicker/WdatePicker.js"></script>
     <script type="text/javascript" src="/static/plus/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" src="/static/plus/ueditor/ueditor.all.min.js"></script>

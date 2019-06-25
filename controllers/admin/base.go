@@ -1,11 +1,12 @@
 package admin
 
 import (
+	"free_cms/pkg/d"
 	"github.com/astaxie/beego"
 	"strings"
 )
 
-type BaseContorller struct {
+type BaseController struct {
 	beego.Controller
 	modelName			string
 	controllerName 		string
@@ -19,8 +20,15 @@ type TmpField struct {
 	BottomJs 		string
 }
 
+// 请求路径
+type request struct {
+	Model			string
+	Controller		string
+	Action			string
+}
+
 // 前期准备
-func (this *BaseContorller) Prepare() {
+func (this *BaseController) Prepare() {
 	// 控制器和方法名
 	this.controllerName, this.actionName = this.GetControllerAndAction()
 	this.controllerName = strings.Replace(this.controllerName, beego.AppConfig.String("appname") + "/", "", 1)
@@ -32,11 +40,27 @@ func (this *BaseContorller) Prepare() {
 }
 
 // 渲染模板
-func (this *BaseContorller) fetch(tpl ...string) {
+func (this *BaseController) fetch(tpl ...string) {
+	// 输出请求路径
+	this.Data["Request"] = &request{Model:this.modelName, Controller:this.controllerName, Action:this.actionName}
+
 	if len(tpl) > 0 {
 		this.TplName = tpl[0]
 	} else {
 		//this.TplName = this.Ctx.Request.URL.String() + ".tpl"
 		this.TplName = this.modelName + "/" + this.controllerName + "/" + this.actionName + ".tpl"
 	}
+}
+
+// layui table 返回数据
+func (this *BaseController) JsonReuturn(code int, msg string, data ...interface{}) {
+	if len(data) > 1 {
+		this.Data["json"] = d.LayuiJson(code, msg, data[0], data[1])
+	} else if len(data) > 0 {
+		this.Data["json"] = d.LayuiJson(code, msg, data[0])
+	} else {
+		this.Data["json"] = d.LayuiJson(code, msg)
+	}
+	this.ServeJSON()
+	this.StopRun()
 }

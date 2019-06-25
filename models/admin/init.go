@@ -12,7 +12,7 @@ import (
 // 基本模型的定义
 type Model struct {
 	Id        uint `gorm:"primary_key"`
-	Addtime time.Time
+	Addtime int64
 	Edittime time.Time
 	Deletedtime *time.Time
 }

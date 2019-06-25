@@ -325,6 +325,25 @@
         });
     }
 
+    function setStatus(id, status) {
+        $.ajax({
+            url:"/{{.Request.Model}}/{{.Request.Controller}}/setStatus",
+            type:"get",
+            dataType:"JSON",
+            data:{id:id,status:status},
+            success:function(re)
+            {
+                if (re.code == "1") {
+                    layer.msg(re.msg, {icon: 1});
+                    setTimeout("window.location.reload();",1000);
+                } else {
+                    layer.msg(re.msg, {icon: 2});
+                }
+            }
+        })
+    }
+
 </script>
+<script src="/static/admin/js/base.js"></script>
 </body>
 </html>
