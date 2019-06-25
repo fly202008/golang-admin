@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"log"
 )
 
@@ -24,6 +25,8 @@ func (this *User) FindAll(page,limit int) (re []User, count int) {
 
 // status 设置
 func (this *User) SetStatus(id, status int) (code int, msg string) {
+	fmt.Printf("id = %d, status = %d\r", id, status)
+
 	err := Db.Model(this).Where("id = ?", id).Update("status", status).Error
 	if err != nil {
 		code = 0

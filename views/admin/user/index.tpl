@@ -54,8 +54,9 @@
                 ,{field: 'Username', title: '用户名', width:80}
                 ,{field: 'Password', title: '密码',  sort: true}
                 ,{
-                    field: 'Status', title: '状态', align: 'center', minWidth: 80, templet: function (data) {
-                        return data.Status == 1 ? '<span class="layui-badge layui-bg-green status_pointer" onclick="setStatus(' + data.Id + ', ' + data.Status + ')">正常</span>' : '<span class="layui-badge layui-bg-orange status_pointer" onclick="setStatus(' + data.Id + ', ' + data.Status + ')">冻结</span>';
+                    field: 'Status', title: '状态', align: 'center', minWidth: 80,  sort: true, templet: function (data) {
+                        var setStatus = data.Status == 1 ? 0 : 1;
+                        return data.Status == 1 ? '<span class="layui-badge layui-bg-green status_pointer" onclick="setStatus(' + data.Id + ', ' + setStatus + ')">正常</span>' : '<span class="layui-badge layui-bg-orange status_pointer" onclick="setStatus(' + data.Id + ', ' + setStatus + ')">冻结</span>';
                     }
                 }
                 ,{

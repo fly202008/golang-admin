@@ -1,8 +1,8 @@
 package admin
 
 import (
-	"free_cms/pkg/d"
 	"github.com/astaxie/beego"
+	"quickstart/pkg/d"
 	"strings"
 )
 

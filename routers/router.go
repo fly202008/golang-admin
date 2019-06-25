@@ -23,13 +23,11 @@ func init() {
 
 		// 用户管理
 		beego.NSNamespace("/user",
-			// 列表
-			beego.NSRouter("/index", &admin.UserController{}, "get:Index"),
+				// 列表
+				beego.NSRouter("/index", &admin.UserController{}, "get:Index"),
+				// 设置用户状态
+				beego.NSRouter("/setStatus", &admin.UserController{}, "get:SetStatus"),
 			),
-			// 设置用户状态
-			beego.NSRouter("/setstatus", &admin.UserController{}, "get:SetStatus"),
-			beego.NSRouter("/test", &admin.UserController{}, "get:Test"),
-
 		)
 	beego.AddNamespace(ns)
 }
