@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"quickstart/models/admin"
 )
 
@@ -59,11 +60,13 @@ func (this *UserController) Edit() {
 // AjaxEdit
 func (this *UserController) AjaxEdit() {
 	if this.Ctx.Input.IsAjax() {
-		var data admin.User
-		if err := this.ParseForm(data); err != nil {
+		//var data admin.User
+		data := admin.User{}
+		if err := this.ParseForm(&data); err != nil {
 			this.JsonReuturn(0, "赋值失败")
 		}
 		// 保存
+		fmt.Println("data = ", data)
 		code, msg := model.Save(data)
 		this.JsonReuturn(code, msg)
 

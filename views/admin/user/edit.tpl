@@ -17,21 +17,21 @@
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-block">
-                <input type="text" name="password" value="{{.data.Password}}" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="text" name="Password" value="{{.data.Password}}" placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">状态{{.data.Status}}</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="0" title="冻结" {{if eq 0 .data.Status}}checked{{end}}>
-                <input type="radio" name="status" value="1" title="正常" {{if eq 1 .data.Status}}checked{{end}}>
+                <input type="radio" name="Status" value="0" title="冻结" {{if eq 0 .data.Status}}checked{{end}}>
+                <input type="radio" name="Status" value="1" title="正常" {{if eq 1 .data.Status}}checked{{end}}>
             </div>
         </div>
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <input type="hidden" name="id" value="{{.data.Id}}">
+                <input type="hidden" name="Id" value="{{.data.Id}}">
                 <a class="layui-btn" href="javascript:;" onclick="submit()">立即提交</a>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>

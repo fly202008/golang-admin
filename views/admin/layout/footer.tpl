@@ -335,7 +335,7 @@
             {
                 if (re.code == "1") {
                     layer.msg(re.msg, {icon: 1});
-                    setTimeout("window.location.reload();",1000);
+                    // setTimeout("window.location.reload();",1000);
                 } else {
                     layer.msg(re.msg, {icon: 2});
                 }

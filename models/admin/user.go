@@ -25,8 +25,7 @@ func (this *User) FindAll(page,limit int) (re []User, count int) {
 
 // status 设置
 func (this *User) SetStatus(id, status int) (code int, msg string) {
-	fmt.Printf("id = %d, status = %d\r", id, status)
-
+	//fmt.Printf("id = %d, status = %d\r", id, status)
 	err := Db.Model(this).Where("id = ?", id).Update("status", status).Error
 	if err != nil {
 		code = 0
@@ -46,7 +45,8 @@ func (this *User) Find(id int) (re User, err error) {
 
 // 修改
 func (this *User) Save(data User) (code int, msg string) {
-	err := Db.Model(this).Where("id=?",this.Id).Updates(data).Error
+	fmt.Printf("data.Id = %d, data.status = %d,  data.Password = %d\r", data.Id, data.Status, data.Password)
+	err := Db.Model(this).Where("id=?",data.Id).Updates(data).Error
 	if err != nil {
 		code = 0
 		msg = "修改失败失败"
