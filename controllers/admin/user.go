@@ -42,3 +42,32 @@ func (this *UserController) SetStatus() {
 		this.JsonReuturn(0, "请求错误")
 	}
 }
+
+// 修改
+func (this *UserController) Edit() {
+	id,idErr := this.GetInt("id")
+	data, err := model.Find(id)
+	if idErr != nil || err != nil {
+		this.JsonReuturn(0, "请求参数错误,未查询到数据")
+	}
+	this.Data["data"] = data
+
+	this.Data["t"] = &TmpField{"用户修改", "", ""}
+	this.fetch()
+}
+
+// AjaxEdit
+func (this *UserController) AjaxEdit() {
+	if this.Ctx.Input.IsAjax() {
+		var data admin.User
+		if err := this.ParseForm(data); err != nil {
+			this.JsonReuturn(0, "赋值失败")
+		}
+		// 保存
+		code, msg := model.Save(data)
+		this.JsonReuturn(code, msg)
+
+	} else {
+		this.JsonReuturn(0, "请求参数错误")
+	}
+}

@@ -22,7 +22,7 @@ type TmpField struct {
 
 // 请求路径
 type request struct {
-	Model			string
+	Module			string
 	Controller		string
 	Action			string
 }
@@ -42,7 +42,7 @@ func (this *BaseController) Prepare() {
 // 渲染模板
 func (this *BaseController) fetch(tpl ...string) {
 	// 输出请求路径
-	this.Data["Request"] = &request{Model:this.modelName, Controller:this.controllerName, Action:this.actionName}
+	this.Data["Request"] = &request{Module:this.modelName, Controller:this.controllerName, Action:this.actionName}
 
 	if len(tpl) > 0 {
 		this.TplName = tpl[0]

@@ -9,7 +9,7 @@ type User struct {
 	Model
 	Username string `rom:"size(32)"`
 	Password	string	`rom:"size(32)"`
-	Status uint
+	Status int
 	Last_login_time int64
 }
 
@@ -34,6 +34,25 @@ func (this *User) SetStatus(id, status int) (code int, msg string) {
 	} else {
 		code = 1
 		msg = "设置成功"
+	}
+	return
+}
+
+// 查询
+func (this *User) Find(id int) (re User, err error) {
+	err = Db.First(&re, id).Error
+	return
+}
+
+// 修改
+func (this *User) Save(data User) (code int, msg string) {
+	err := Db.Model(this).Where("id=?",this.Id).Updates(data).Error
+	if err != nil {
+		code = 0
+		msg = "修改失败失败"
+	} else {
+		code = 1
+		msg = "修改成功成功"
 	}
 	return
 }

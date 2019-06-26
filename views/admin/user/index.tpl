@@ -26,7 +26,25 @@
     </div>
 
 </fieldset>
-
+<!--左上角操作-->
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+        <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
+    </div>
+</script>
+<!--操作-->
+<script type="text/html" id="toolBar">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">
+            <i class="layui-icon layui-icon-edit"></i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="delete">
+            <i class="layui-icon layui-icon-delete"></i>
+        </button>
+    </div>
+</script>
 <script>
     //一般直接写在一个js文件中
     layui.use(['layer', 'form', 'table'], function(){
@@ -44,13 +62,15 @@
         // 表格数据
         table.render({
             elem: '#jsonTable'
+            ,toolbar: '#toolbarDemo' // 工具条、打印、导出、筛选列
             ,url: '/admin/user/index' //数据接口
             ,method: 'get'
             ,page: true //开启分页
             ,limit: 10
             ,limits : [10,20,50,100]
             ,cols: [[ //表头
-                {field: 'Id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                {type: "checkbox", fixed: "left", width: 50}
+                ,{field: 'Id', title: 'ID', width:80, sort: true, fixed: 'left'}
                 ,{field: 'Username', title: '用户名', width:80}
                 ,{field: 'Password', title: '密码',  sort: true}
                 ,{
@@ -69,7 +89,42 @@
                         return _strtotime(data.Last_login_time);
                     }
                 }
+                ,{title: '操作', width: 170, templet: '#toolBar', fixed: "right", align: "center"}
             ]]
+        });
+
+        //监听事件
+        table.on('toolbar(jsonTable)', function(obj){
+            var layEvent = obj.event;
+            console.log("layEvent = "+layEvent);
+            var checkStatus = table.checkStatus(obj.config.id);
+            console.log(checkStatus)
+            switch(obj.event){
+                case 'add':
+                    layer.msg('添加');
+                    break;
+                case 'delete':
+                    layer.msg('删除');
+                    break;
+                case 'update':
+                    layer.msg('编辑');
+                    break;
+            };
+        });
+
+        //监听事件
+        table.on('tool(jsonTable)', function(obj){
+            var layEvent = obj.event;
+
+            console.log(obj)
+            switch(layEvent){
+                case 'delete':
+                    del(obj.data.Id)
+                    break;
+                case 'update':
+                    edit(obj.data.Id)
+                    break;
+            };
         });
 
     });

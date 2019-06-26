@@ -3,12 +3,12 @@
 <script>
     //定义模块
     //js转换驼峰命名
-    var controller = "{$Request.controller}";
-    controller = controller.replace(/([A-Z])/g,"_$1").toLowerCase();
-    if (controller.indexOf("_") == 0) {
-        controller = controller.substring(1);
-    }
-    model = "/{$Request.module}/" + controller + "/";
+    var controller = "{{.Request.Controller}}";
+    // controller = controller.replace(/([A-Z])/g,"_$1").toLowerCase();
+    // if (controller.indexOf("_") == 0) {
+    //     controller = controller.substring(1);
+    // }
+    model = "/{{.Request.Module}}/" + controller + "/";
 
     /**
      * 数据添加
@@ -36,7 +36,7 @@
             shadeClose: true,
             shade: 0.8,
             area: ['90%', '90%'],
-            content: model + "edit/id/" + id,
+            content: model + "edit?id=" + id,
             end:function()
             {}
         });
@@ -327,7 +327,7 @@
 
     function setStatus(id, status) {
         $.ajax({
-            url:"/{{.Request.Model}}/{{.Request.Controller}}/setStatus",
+            url:"/{{.Request.Module}}/{{.Request.Controller}}/setStatus",
             type:"get",
             dataType:"JSON",
             data:{id:id,status:status},

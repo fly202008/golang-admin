@@ -23,11 +23,22 @@ func init() {
 
 		// 用户管理
 		beego.NSNamespace("/user",
-				// 列表
-				beego.NSRouter("/index", &admin.UserController{}, "get:Index"),
-				// 设置用户状态
-				beego.NSRouter("/setStatus", &admin.UserController{}, "get:SetStatus"),
-			),
-		)
+			// 列表
+			beego.NSRouter("/index", &admin.UserController{}, "get:Index"),
+			// 设置用户状态
+			beego.NSRouter("/setStatus", &admin.UserController{}, "get:SetStatus"),
+			// 修改
+			beego.NSRouter("/edit", &admin.UserController{}, "get:Edit"),
+			beego.NSRouter("/ajaxEdit", &admin.UserController{}, "post:AjaxEdit"),
+			// 添加
+			//beego.NSRouter("/add", &admin.UserController{}, "get:Add"),
+			//beego.NSRouter("/ajaxAdd", &admin.UserController{}, "get:AjaxAdd"),
+			// 删除
+			//beego.NSRouter("/del", &admin.UserController{}, "get:Del"),
+			//beego.NSRouter("/ajaxDel", &admin.UserController{}, "get:AjaxDel"),
+			// 批量删除
+			//beego.NSRouter("/ajaxDelAll", &admin.UserController{}, "get:AjaxDelAll"),
+		),
+	)
 	beego.AddNamespace(ns)
 }
