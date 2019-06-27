@@ -31,8 +31,8 @@ func init() {
 			beego.NSRouter("/edit", &admin.UserController{}, "get:Edit"),
 			beego.NSRouter("/ajaxEdit", &admin.UserController{}, "post:AjaxEdit"),
 			// 添加
-			//beego.NSRouter("/add", &admin.UserController{}, "get:Add"),
-			//beego.NSRouter("/ajaxAdd", &admin.UserController{}, "get:AjaxAdd"),
+			beego.NSRouter("/add", &admin.UserController{}, "get:Add"),
+			beego.NSRouter("/ajaxAdd", &admin.UserController{}, "post:AjaxAdd"),
 			// 删除
 			//beego.NSRouter("/del", &admin.UserController{}, "get:Del"),
 			//beego.NSRouter("/ajaxDel", &admin.UserController{}, "get:AjaxDel"),

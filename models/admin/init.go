@@ -6,15 +6,12 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"net/url"
-	"time"
 )
 
 // 基本模型的定义
 type Model struct {
 	Id        uint `gorm:"primary_key"`
 	Addtime int64
-	Edittime time.Time
-	Deletedtime *time.Time
 }
 
 var (

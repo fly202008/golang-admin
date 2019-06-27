@@ -7,17 +7,27 @@
 <fieldset class="layui-elem-field" style="padding-right: 5px;">
     <legend><b>{{.t.Title}}</b></legend>
     <div class="layui-field-box layui-form">
-        <form action="" method="get">
+        <form action="" id="searchForm" method="get">
             <div class="layui-form-item">
                 <label class="layui-form-label">搜索：</label>
-                <div class="layui-inline" style="width: 150px;"><select name="uid" id="channel"><option value="">=请选择=</option></select></div><div class="layui-inline" style="width:100px;">
-                    <input type="text" name="time1" placeholder="开始时间" onclick="WdatePicker()" value="{:input('time1')}" autocomplete="off" class="layui-input">
+                <div class="layui-inline">
+                    <input type="text" name="username" value="{{.where.Username}}" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-inline" style="width: 150px;">
+                    <select name="status" id="status">
+                        <option value="">=状态=</option>
+                        <option value="1" {{if eq .where.Status 1}}selected{{end}}>正常</option>
+                        <option value="2" {{if eq .where.Status 2}}selected{{end}}>冻结</option>
+                    </select>
                 </div>
                 <div class="layui-inline" style="width:100px;">
-                    <input type="text" name="time2" placeholder="结束时间" onclick="WdatePicker()" value="{:input('time2')}" autocomplete="off" class="layui-input">
+                    <input type="text" name="time1" placeholder="开始时间" onclick="WdatePicker()" value="{{.where.Time1}}" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-inline" style="width:100px;">
+                    <input type="text" name="time2" placeholder="结束时间" onclick="WdatePicker()" value="{{.where.Time2}}" autocomplete="off" class="layui-input">
                 </div>
                 <button class="layui-btn"><i class="layui-icon">&#xe615;</i> </button>
-                <a href="{:url('lst')}" class="layui-btn layui-btn-primary">重置</a>
+                <a href="/{{.Request.Module}}/{{.Request.Controller}}/{{.Request.Action}}" class="layui-btn layui-btn-primary">重置</a>
             </div>
         </form>
     </div>
@@ -30,8 +40,7 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
-        <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
-        <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">批量删除</button>
     </div>
 </script>
 <!--操作-->
@@ -46,6 +55,7 @@
     </div>
 </script>
 <script>
+
     //一般直接写在一个js文件中
     layui.use(['layer', 'form', 'table'], function(){
         var layer = layui.layer
@@ -58,7 +68,6 @@
             });
             form.render('checkbox');
         });
-
         // 表格数据
         table.render({
             elem: '#jsonTable'
@@ -67,7 +76,8 @@
             ,method: 'get'
             ,page: true //开启分页
             ,limit: 10
-            ,limits : [10,20,50,100]
+            ,where:{status:$("[name='status']").val(),username:$("[name='username']").val(),time1:$("[name='time1']").val(),time2:$("[name='time2']").val()}
+            ,limits : [10,20,50,100,1000]
             ,cols: [[ //表头
                 {type: "checkbox", fixed: "left", width: 50}
                 ,{field: 'Id', title: 'ID', width:80, sort: true, fixed: 'left'}
@@ -75,7 +85,7 @@
                 ,{field: 'Password', title: '密码',  sort: true}
                 ,{
                     field: 'Status', title: '状态', align: 'center', minWidth: 80,  sort: true, templet: function (data) {
-                        var setStatus = data.Status == 1 ? 0 : 1;
+                        var setStatus = data.Status == 1 ? 2 : 1;
                         return data.Status == 1 ? '<span class="layui-badge layui-bg-green status_pointer" onclick="setStatus(' + data.Id + ', ' + setStatus + ')">正常</span>' : '<span class="layui-badge layui-bg-orange status_pointer" onclick="setStatus(' + data.Id + ', ' + setStatus + ')">冻结</span>';
                     }
                 }
@@ -101,7 +111,7 @@
             console.log(checkStatus)
             switch(obj.event){
                 case 'add':
-                    layer.msg('添加');
+                    add();
                     break;
                 case 'delete':
                     layer.msg('删除');
