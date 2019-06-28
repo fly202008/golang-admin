@@ -1,6 +1,8 @@
 package d
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"time"
 )
@@ -19,4 +21,10 @@ func Strtotiom(str string) (timestamp int64) {
 	fmt.Println(theTime)                                            //打印输出theTime 2015-01-01 15:15:00 +0800 CST
 	fmt.Println(timestamp)                                                 //打印输出时间戳 1420041600
 	return
+}
+
+func MD5(str string) (str2 string) {
+	h := md5.New()
+	h.Write([]byte(str))
+	return hex.EncodeToString(h.Sum(nil))
 }

@@ -34,10 +34,9 @@ func init() {
 			beego.NSRouter("/add", &admin.UserController{}, "get:Add"),
 			beego.NSRouter("/ajaxAdd", &admin.UserController{}, "post:AjaxAdd"),
 			// 删除
-			//beego.NSRouter("/del", &admin.UserController{}, "get:Del"),
-			//beego.NSRouter("/ajaxDel", &admin.UserController{}, "get:AjaxDel"),
+			beego.NSRouter("/ajaxDel", &admin.UserController{}, "get:AjaxDel"),
 			// 批量删除
-			//beego.NSRouter("/ajaxDelAll", &admin.UserController{}, "get:AjaxDelAll"),
+			beego.NSRouter("/ajaxDelAll", &admin.UserController{}, "post:AjaxDelAll"),
 		),
 	)
 	beego.AddNamespace(ns)

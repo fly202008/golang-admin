@@ -106,18 +106,28 @@
         //监听事件
         table.on('toolbar(jsonTable)', function(obj){
             var layEvent = obj.event;
-            console.log("layEvent = "+layEvent);
+            // console.log("layEvent = "+layEvent);
             var checkStatus = table.checkStatus(obj.config.id);
-            console.log(checkStatus)
+            // console.log(checkStatus)
             switch(obj.event){
                 case 'add':
                     add();
                     break;
                 case 'delete':
-                    layer.msg('删除');
-                    break;
-                case 'update':
-                    layer.msg('编辑');
+                    var ids = new Array();
+                    $(checkStatus.data).each(function (k,v) {
+                        if (v['Id'] == 1) {
+                            return true
+                        }
+                        ids.push(v['Id'])
+                    })
+                    if($.inArray("1",ids) > 0) {
+                        ids.splice($.inArray("1",ids), 1);
+                    }
+                    if (ids != []) {
+                        ajaxDelAll_table(ids.join(","));
+                    }
+                    // console.log(ids);
                     break;
             };
         });
@@ -129,7 +139,7 @@
             console.log(obj)
             switch(layEvent){
                 case 'delete':
-                    del(obj.data.Id)
+                    ajaxDel(obj.data.Id)
                     break;
                 case 'update':
                     edit(obj.data.Id)

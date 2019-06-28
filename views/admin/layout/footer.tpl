@@ -247,6 +247,31 @@
     }
 
     /**
+     * 批量删除--来自动态表格
+     */
+    function ajaxDelAll_table(ids)
+    {
+        layer.confirm('是删除?', {icon: 3, title:'提示'}, function(index){
+            $.ajax({
+                url:model + "ajaxDelAll",
+                type:"post",
+                dataType:"JSON",
+                data:{ids:ids},
+                success:function(re)
+                {
+                    if (re.code == "1") {
+                        layer.msg(re.msg, {icon: 1});
+                        setTimeout("window.location.reload();",1000);
+                    } else {
+                        layer.msg(re.msg, {icon: 2});
+                    }
+                }
+            })
+            layer.close(index);
+        });
+    }
+
+    /**
      * 更新排序
      */
     function upRankAll()

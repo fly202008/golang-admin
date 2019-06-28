@@ -17,7 +17,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-block">
-                <input type="text" name="Password" value="{{.data.Password}}" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="text" name="Password" value="" placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -49,11 +49,6 @@
 <script>
     function submit()
     {
-        var f = document.mainform;
-        if($("[name='password']").val() == '') {
-            layer.alert("请输入密码");
-            return;
-        }
         ajaxEdit();
     }
 </script>

@@ -22,7 +22,6 @@ func (this *UserController) Index() {
 	where.Time2 = this.GetString("time2")
 	where.Username = this.GetString("username")
 	this.Data["where"] = where
-	fmt.Println("where = ", where)
 
 	if this.Ctx.Input.IsAjax() {
 		page,_ := this.GetInt("page")
@@ -105,5 +104,28 @@ func (this *UserController) AjaxAdd() {
 
 	} else {
 		this.JsonReuturn(0, "请求错误")
+	}
+}
+
+// Ajax删除
+func (this *UserController) AjaxDel() {
+	id,idErr := this.GetInt("id")
+	if idErr != nil || id == 0 {
+		this.JsonReuturn(0, "请求参数错误,未查询到数据")
+	} else {
+		code, msg := model.AjaxDel(id)
+		this.JsonReuturn(code, msg)
+	}
+}
+
+// Ajax批量删除
+func (this *UserController) AjaxDelAll() {
+	ids := this.GetString("ids")
+	fmt.Println("ids = ", ids)
+	if ids == "" {
+		this.JsonReuturn(0, "请求参数错误,未查询到数据")
+	} else {
+		code, msg := model.AjaxDelAll(ids)
+		this.JsonReuturn(code, msg)
 	}
 }
