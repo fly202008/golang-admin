@@ -34,17 +34,17 @@
         <img src="{{.Vcode}}" id="captchaImg" style="height: 36px;float: left;cursor: pointer;" onclick="getCaptcha()">
         <input type="hidden" name="capid" value="">
     </div>
-{{/*    <div class="layui-form-item">*/}}
-{{/*        <label class="layui-form-label" style="width:50px;left:0px;">记住我</label>*/}}
-{{/*        <div class="layui-input-block" style="margin-left: 70px;">*/}}
-{{/*            <select name="remember" lay-verify="required">*/}}
-{{/*                <option value="">不用</option>*/}}
-{{/*                <option value="3">三天</option>*/}}
-{{/*                <option value="7">七天</option>*/}}
-{{/*                <option value="15">十五天</option>*/}}
-{{/*            </select>*/}}
-{{/*        </div>*/}}
-{{/*    </div>*/}}
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width:50px;left:0px;">记住我</label>
+        <div class="layui-input-block" style="margin-left: 70px;">
+            <select name="remember" lay-verify="required">
+                <option value="">不用</option>
+                <option value="3">三天</option>
+                <option value="7">七天</option>
+                <option value="15">十五天</option>
+            </select>
+        </div>
+    </div>
     <!-- <div class="beg-pull-left beg-login-remember">
         <label>记住帐号？</label>
         <input type="checkbox" name="rememberMe" value="true" lay-skin="switch" checked title="记住帐号">

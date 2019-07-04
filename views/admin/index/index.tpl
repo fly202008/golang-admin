@@ -20,7 +20,7 @@
     <!-- 顶部 -->
     <div class="layui-header header">
         <div class="layui-main mag0">
-            <a href="#" class="logo">{$web_title}</a>
+            <a href="#" class="logo">{{.webname}}</a>
             <!-- 显示/隐藏菜单 -->
             <a href="javascript:;" class="seraph hideMenu"><i class="layui-icon layui-icon-align-left"></i> </a>
             <!-- 顶级菜单 -->
@@ -55,7 +55,7 @@
                 <!--<a href="javascript:;"><i class="seraph icon-lock"></i><cite>锁屏</cite></a>-->
                 <!--</li>-->
                 <li class="layui-nav-item" id="userInfo">
-                    <a href="javascript:;"><img src="/static/admin/images/userface4.jpg" class="layui-nav-img userAvatar" width="35" height="35"><cite class="adminName">{$Think.session.info.username}</cite></a>
+                    <a href="javascript:;"><img src="/static/admin/images/userface4.jpg" class="layui-nav-img userAvatar" width="35" height="35"><cite class="adminName">{{.info.Username}}</cite></a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" data-url="{:url('user/editme')}"><i class="layui-icon layui-icon-edit"></i><cite>修改密码</cite></a></dd>
                         <dd pc><a href="javascript:;" class="changeSkin"><i class="layui-icon">&#xe61b;</i><cite>更换皮肤</cite></a></dd>
@@ -69,7 +69,7 @@
     <div class="layui-side layui-bg-black">
         <div class="user-photo">
             <a class="img" title="我的头像" ><img src="/static/admin/images/userface4.jpg" class="userAvatar"></a>
-            <p>你好！<span class="userName">{$Think.session.info.username}</span>, 欢迎登录</p>
+            <p>你好！<span class="userName">{{.info.Username}}</span>, 欢迎登录</p>
         </div>
         <!-- 搜索 -->
         <!--<div class="layui-form component">-->

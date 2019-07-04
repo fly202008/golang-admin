@@ -14,6 +14,7 @@ type User struct {
 	Model
 	Username string `grom:"size(32)"`
 	Password	string	`grom:"size(32)"`
+	Salt string
 	Status int
 	Last_login_time int64
 }
