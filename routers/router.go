@@ -1,9 +1,10 @@
 package routers
 
 import (
-	"quickstart/controllers"
 	"github.com/astaxie/beego"
+	"quickstart/controllers"
 	"quickstart/controllers/admin"
+	"quickstart/controllers/common"
 )
 
 func init() {
@@ -15,11 +16,24 @@ func init() {
 	//beego.Router("/admin", &admin.IndexController{}, "get:Index")
 	//beego.Router("/admin/index/main", &admin.IndexController{}, "get:Main")
 
+	// 工具管理
+	common := beego.NewNamespace("common",
+		beego.NSNamespace("/tool",
+			// 验证码
+			beego.NSRouter("/captcha", &common.ToolController{}, "get:Captcha"),
+		),
+	)
+	beego.AddNamespace(common)
+
+
 	// 后台
 	ns := beego.NewNamespace("/admin",
 		// 首页
 		beego.NSRouter("/", &admin.IndexController{}, "get:Index"),
 		beego.NSRouter("index/main", &admin.IndexController{}, "get:Main"),
+
+		// 登录
+		beego.NSRouter("/login", &admin.LoginController{},"*:Login"),
 
 		// 用户管理
 		beego.NSNamespace("/user",

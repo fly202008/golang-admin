@@ -1,4 +1,5 @@
 package d
+
 //普通json格式
 func ReturnJson(code int,msg string,data ...interface{})(jsonData map[string]interface{}){
 	jsonData = make(map[string]interface{}, 3)
@@ -9,6 +10,7 @@ func ReturnJson(code int,msg string,data ...interface{})(jsonData map[string]int
 	}
 	return
 }
+
 //layui 后台返回需要的json格式
 func LayuiJson(code int,msg string,data ...interface{})(jsonData map[string]interface{}){
 	jsonData = make(map[string]interface{}, 3)
