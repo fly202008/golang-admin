@@ -18,11 +18,33 @@ func (this *TypeController) Index() {
 	where.Name = this.GetString("name")
 	this.Data["where"] = where
 	if this.Ctx.Input.IsAjax() {
-		result, count := typeModel.FindAll(where);
-
+		result, count := typeModel.FindAll(where)
 		this.JsonReuturn(0, "ok", result, count)
 	}
+	//
+	this.Data["tree"] = typeModel.DataTree()
 	this.fetch()
+}
+
+// 栏目tree
+func (this *TypeController) DataTree() {
+
+}
+
+// 设置数据状态
+func (this *TypeController) SetStatus() {
+	if this.Ctx.Input.IsAjax() {
+		id,idErr := this.GetInt("id")
+		status, statusErr := this.GetInt("status")
+		if idErr != nil || statusErr != nil {
+			this.JsonReuturn(0, "请求参数错误")
+		} else {
+			code, msg := typeModel.SetStatus(id, status)
+			this.JsonReuturn(code, msg)
+		}
+	} else {
+		this.JsonReuturn(0, "请求错误")
+	}
 }
 
 // 修改

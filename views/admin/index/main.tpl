@@ -30,11 +30,21 @@
         </tr>
         <tr>
             <td>后台layui版本</td>
-            <td class="server">v2.4.5</td>
+            <td class="server">2.5.4</td>
         </tr>
         </tbody>
     </table>
 </div>
+
+    <div style="background: #f2f2f2;padding: 10px;">
+        <div class="layui-card">
+            <div class="layui-card-header">特殊说明</div>
+            <div class="layui-card-body">
+                <p style="text-indent: 1em;"><span class="layui-badge-dot"></span>&nbsp;&nbsp;&nbsp;改写了layui下面的tree模块</p>
+            </div>
+        </div>
+    </div>
+
 
 <script>
     //一般直接写在一个js文件中

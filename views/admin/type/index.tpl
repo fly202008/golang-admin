@@ -19,6 +19,8 @@
     </div>
 </script>
 <!--操作-->
+<div id="test1"></div>
+
 <script type="text/html" id="toolBar">
     <div class="layui-btn-group">
         <button type="button" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">
@@ -32,10 +34,11 @@
 <script>
 
     //一般直接写在一个js文件中
-    layui.use(['layer', 'form', 'table'], function(){
+    layui.use(['layer', 'form', 'table', 'tree'], function(){
         var layer = layui.layer
             ,form = layui.form;
         var table = layui.table;
+        var tree = layui.tree;
         form.on('checkbox(allselector)', function(data){
             var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
             child.each(function(index, item){
@@ -116,6 +119,50 @@
                     edit(obj.data.Id);
                     break;
             }
+        });
+
+        // 树形菜单
+        //渲染
+        var inst1 = tree.render({
+            elem: '#test1'  //绑定元素
+            ,edit: ['add', 'update', 'del', 'del2'] //操作节点的图标
+            ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+            ,click: function(obj){
+                layer.msg(JSON.stringify(obj.data));
+            }
+            ,operate: function(obj){
+                var type = obj.type; //得到操作类型：add、edit、del
+                var data = obj.data; //得到当前节点的数据
+                var elem = obj.elem; //得到当前节点元素
+
+                //Ajax 操作
+                var id = data.id; //得到节点索引
+                if(type === 'del2'){ //增加节点
+                    //返回 key 值
+                    console.log("add")
+                    return 123;
+                } else if(type === 'update'){ //修改节点
+                    console.log(elem.find('.layui-tree-txt').html()); //得到修改后的内容
+                } else if(type === 'del'){ //删除节点
+
+                };
+            }
+            ,data: [{
+                title: '江西' //一级菜单
+                ,icon: 'layui-icon-component' //一级菜单
+                ,children: [{
+                    title: '南昌' //二级菜单
+                    ,children: [{
+                        title: '高新区' //三级菜单
+                        //…… //以此类推，可无限层级
+                    }]
+                }]
+            },{
+                title: '陕西' //一级菜单
+                ,children: [{
+                    title: '西安' //二级菜单
+                }]
+            }]
         });
 
     });

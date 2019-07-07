@@ -12,6 +12,7 @@ type Type struct {
 	Id 	int
 	Name string 	`grom:"size(32)"`
 	Is_navi 	int
+	Parent_id int
 	Weight 	int
 	Addtime int64
 }
@@ -48,9 +49,39 @@ func (this Type) FindAll(where TypeWhere) (re []Type, count int) {
 	return
 }
 
+// 栏目tree
+func (this Type) DataTree() (re []Type) {
+	err := Db.Order("weight desc, id").Find(&re).Error
+	if err != nil {
+		log.Println(err)
+	} else {
+		//re =
+		fmt.Println("re = ", re)
+	}
+	return
+}
+// 设置栏目tree
+func (this Type) SetTree(data []Type) (re []Type) {
+
+	return
+}
+
 // 查询
 func (this *Type) Find(id int) (re Type, err error) {
 	err = Db.First(&re, id).Error
+	return
+}
+
+// status 设置
+func (this *Type) SetStatus(id, status int) (code int, msg string) {
+	err := Db.Model(this).Where("id = ?", id).Update("is_navi", status).Error
+	if err != nil {
+		code = 0
+		msg = "设置状态失败"
+	} else {
+		code = 1
+		msg = "设置成功"
+	}
 	return
 }
 

@@ -13,14 +13,14 @@
     /**
      * 数据添加
      */
-    function add(){
+    function add(id = 0){
         layer.open({
             type: 2,
             title: '数据添加',
             shadeClose: true,
             shade: 0.8,
             area: ['90%', '90%'],
-            content: model + "add",
+            content: model + "add" + "?id=" + id,
             end:function()
             {}
         });
@@ -360,7 +360,7 @@
             {
                 if (re.code == "1") {
                     layer.msg(re.msg, {icon: 1});
-                    // setTimeout("window.location.reload();",1000);
+                    setTimeout("window.location.reload();",1000);
                 } else {
                     layer.msg(re.msg, {icon: 2});
                 }

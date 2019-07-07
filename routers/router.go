@@ -57,7 +57,7 @@ func init() {
 			// 列表
 			beego.NSRouter("/index", &admin.TypeController{}, "get:Index"),
 			// 设置用户状态
-			//beego.NSRouter("/setStatus", &admin.TypeController{}, "get:SetStatus"),
+			beego.NSRouter("/setStatus", &admin.TypeController{}, "get:SetStatus"),
 			// 修改
 			beego.NSRouter("/edit", &admin.TypeController{}, "get:Edit"),
 			beego.NSRouter("/ajaxEdit", &admin.TypeController{}, "post:AjaxEdit"),
