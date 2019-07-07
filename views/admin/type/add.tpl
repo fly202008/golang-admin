@@ -6,26 +6,25 @@
 </blockquote>
 <fieldset class="layui-elem-field" style="padding: 10px;">
     <legend><b>{{.t.Title}}</b></legend>
-    <form class="layui-form changePwd" name="mainform" id="mainform" action="" method="post">
+    <form class="layui-form changePwd" name="mainform" id="mainform" action="{:url('add')}" method="post">
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名</label>
+            <label class="layui-form-label">栏目名</label>
             <div class="layui-input-block">
-                <input type="text" name="Username" value="" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                <input type="text" name="Name" value="" placeholder="请输入栏目名" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">密码</label>
+            <label class="layui-form-label">导航显示</label>
             <div class="layui-input-block">
-                <input type="text" name="Password" value="" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="checkbox" name="Is_navi" lay-skin="switch" checked value="1" lay-filter="switchIs_navi" lay-text="显示|隐藏">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">状态</label>
+            <label class="layui-form-label">排序</label>
             <div class="layui-input-block">
-                <input type="radio" name="Status" value="2" title="冻结">
-                <input type="radio" name="Status" value="1" title="正常" checked>
+                <input type="text" name="Weight" value="50" placeholder="越大越靠前" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -43,6 +42,15 @@
     layui.use(['layer', 'form'], function(){
         var layer = layui.layer
             ,form = layui.form;
+        //监听指定开关
+        form.on('switch(switchIs_navi)', function(data){
+            // this.checked ? 'true' : 'false'
+            console.log(this.checked);
+            var is_navi_info = this.checked ? '显示' : '隐藏';
+            var is_navi = this.checked ? '1' : '2';
+            $("[name='Is_navi']").val(is_navi);
+            layer.tips(is_navi_info, data.othis)
+        });
     });
 </script>
 <script>

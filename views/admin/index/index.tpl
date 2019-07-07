@@ -100,6 +100,20 @@
                         </dd>
                     </dl>
                 </li>
+                <li class="layui-nav-item">
+                    <a>
+                        <i class="layui-icon" data-icon=""></i>
+                        <cite>内容管理</cite>
+                        <span class="layui-nav-more"></span>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a data-url="/admin/type/index">
+                                <i class="layui-icon" data-icon=""></i>
+                                <cite>栏目列表</cite></a>
+                        </dd>
+                    </dl>
+                </li>
                 <!--<li class="layui-nav-item">-->
                 <!--<a>-->
                 <!--<i class="layui-icon" data-icon=""></i>-->

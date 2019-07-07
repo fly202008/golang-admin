@@ -31,6 +31,8 @@ type request struct {
 
 // 前期准备
 func (this *BaseController) Prepare() {
+	//info_session := this.GetSession("info")
+	//fmt.Println("info session = ", info_session);
 	// 控制器和方法名
 	this.controllerName, this.actionName = this.GetControllerAndAction()
 	this.controllerName = strings.Replace(this.controllerName, beego.AppConfig.String("appname") + "/", "", 1)
@@ -52,7 +54,7 @@ func (this *BaseController) Prepare() {
 				this.SetSession("info", user)
 			}
 		} else {
-			this.Redirect("/admin/login", 301)
+			this.Redirect("/admin/login", 302)
 		}
 	}
 }

@@ -13,6 +13,8 @@ type LoginController struct {
 }
 
 func (this *LoginController) Login() {
+	//info_session := this.GetSession("info")
+	//fmt.Println(info_session);
 	//a := this.GetSession("info")
 	//fmt.Println("session info = ", a)
 	//b := this.Ctx.GetCookie("username")

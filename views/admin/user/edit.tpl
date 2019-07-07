@@ -1,12 +1,12 @@
 {{template "admin/layout/header.tpl" .}}
 
 <blockquote class="layui-elem-quote">
-    <a class="layui-btn layui-btn-sm layui-btn-danger batchDell" href="{:url('lst')}"><i class="layui-icon layui-icon-list"></i>列表</a>
+    <a class="layui-btn layui-btn-sm layui-btn-danger batchDell" href="/admin/user/index"><i class="layui-icon layui-icon-list"></i>列表</a>
     <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新" style="float:right"><i class="layui-icon layui-icon-refresh"></i>刷新</a>
 </blockquote>
 <fieldset class="layui-elem-field" style="padding: 10px;">
     <legend><b>{{.t.Title}}</b></legend>
-    <form class="layui-form changePwd" name="mainform" id="mainform" action="{:url('add')}" method="post">
+    <form class="layui-form changePwd" name="mainform" id="mainform" action="" method="post">
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">

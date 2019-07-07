@@ -9,7 +9,7 @@ type UserController struct {
 	BaseController
 }
 
-var model = new(admin.User)
+var userModel = new(admin.User)
 
 
 
@@ -30,7 +30,7 @@ func (this *UserController) Index() {
 			limit = 1
 		}
 
-		result, count := model.FindAll((page-1)*limit, limit, where)
+		result, count := userModel.FindAll((page-1)*limit, limit, where)
 
 		this.JsonReuturn(0, "ok", result, count)
 	}
@@ -46,7 +46,7 @@ func (this *UserController) SetStatus() {
 		if idErr != nil || statusErr != nil {
 			this.JsonReuturn(0, "请求参数错误")
 		} else {
-			code, msg := model.SetStatus(id, status)
+			code, msg := userModel.SetStatus(id, status)
 			this.JsonReuturn(code, msg)
 		}
 	} else {
@@ -57,7 +57,7 @@ func (this *UserController) SetStatus() {
 // 修改
 func (this *UserController) Edit() {
 	id,idErr := this.GetInt("id")
-	data, err := model.Find(id)
+	data, err := userModel.Find(id)
 	if idErr != nil || err != nil {
 		this.JsonReuturn(0, "请求参数错误,未查询到数据")
 	}
@@ -76,7 +76,7 @@ func (this *UserController) AjaxEdit() {
 		}
 		// 保存
 		//fmt.Printf("C data.Id = %d, data.Status = %d,  data.Password = %v\r", data.Id, data.Status, data.Password)
-		code, msg := model.Save(data)
+		code, msg := userModel.Save(data)
 		this.JsonReuturn(code, msg)
 
 	} else {
@@ -99,7 +99,7 @@ func (this *UserController) AjaxAdd() {
 		}
 		// 保存
 		//fmt.Printf("C data.Id = %d, data.Status = %d,  data.Password = %v\r", data.Id, data.Status, data.Password)
-		code, msg := model.Add(data)
+		code, msg := userModel.Add(data)
 		this.JsonReuturn(code, msg)
 
 	} else {
@@ -113,7 +113,7 @@ func (this *UserController) AjaxDel() {
 	if idErr != nil || id == 0 {
 		this.JsonReuturn(0, "请求参数错误,未查询到数据")
 	} else {
-		code, msg := model.AjaxDel(id)
+		code, msg := userModel.AjaxDel(id)
 		this.JsonReuturn(code, msg)
 	}
 }
@@ -125,7 +125,7 @@ func (this *UserController) AjaxDelAll() {
 	if ids == "" {
 		this.JsonReuturn(0, "请求参数错误,未查询到数据")
 	} else {
-		code, msg := model.AjaxDelAll(ids)
+		code, msg := userModel.AjaxDelAll(ids)
 		this.JsonReuturn(code, msg)
 	}
 }
