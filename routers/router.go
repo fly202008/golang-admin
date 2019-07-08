@@ -5,14 +5,15 @@ import (
 	"quickstart/controllers"
 	"quickstart/controllers/admin"
 	"quickstart/controllers/common"
+	"quickstart/controllers/index"
 )
 
 func init() {
-	beego.AutoRouter(&controllers.CopyController{})
-	beego.Router("/", &controllers.MainController{})
+	//beego.AutoRouter(&controllers.CopyController{})
+	//beego.Router("/", &controllers.MainController{})
 	//beego.Router("/copy", &controllers.CopyControllers{}, "*:Index")
 	//beego.AutoRouter("/copy", &controllers.CopyControllers{})
-	beego.Router("/articles/index", &controllers.ArticlesContorller{}, "*:Index")
+	//beego.Router("/articles/index", &controllers.ArticlesContorller{}, "*:Index")
 	//beego.Router("/admin", &admin.IndexController{}, "get:Index")
 	//beego.Router("/admin/index/main", &admin.IndexController{}, "get:Main")
 
@@ -24,6 +25,16 @@ func init() {
 		),
 	)
 	beego.AddNamespace(common)
+
+	// 前台
+	beego.Router("/", &controllers.MainController{})
+	ns2 := beego.NewNamespace("/book",
+		// book首页
+		beego.NSRouter("/index", &index.IndexController{}, "get:Index"),
+		// book分类页
+		beego.NSRouter("/index", &index.IndexController{}, "get:Index"),
+	)
+	beego.AddNamespace(ns2)
 
 
 	// 后台
@@ -56,7 +67,7 @@ func init() {
 		beego.NSNamespace("/type",
 			// 列表
 			beego.NSRouter("/index", &admin.TypeController{}, "get:Index"),
-			// 设置用户状态
+			// 设置栏目状态
 			beego.NSRouter("/setStatus", &admin.TypeController{}, "get:SetStatus"),
 			// 修改
 			beego.NSRouter("/edit", &admin.TypeController{}, "get:Edit"),

@@ -109,7 +109,6 @@ function(e) {
         r = n.config,
         l = a || r.data;
         
-        console.log("l 是什么");
         // console.log(l);
         layui.each(l,
         function(a, l) {
@@ -244,7 +243,7 @@ function(e) {
                 elem: e
             };
             if ("add" == f) {
-            	add(d[0].id)
+            	padd(d[0].id)
                 // g[0] || (r.showLine ? (d.find("." + c).addClass("layui-tree-icon"), d.find("." + c).children(".layui-icon").addClass(o).removeClass("layui-icon-file")) : d.find(".layui-tree-iconArrow").removeClass(t), e.append('<div class="layui-tree-pack"></div>'));
                 // var b = r.operate && r.operate(x),
                 // w = {};

@@ -1,9 +1,7 @@
-package admin
+package index
 
 import (
-	"fmt"
 	"github.com/astaxie/beego"
-	"quickstart/models/admin"
 	"quickstart/pkg/d"
 	"strings"
 )
@@ -40,24 +38,7 @@ func (this *BaseController) Prepare() {
 	this.controllerName = strings.ToLower(this.controllerName)
 	this.actionName = strings.ToLower(this.actionName)
 	// 当前模型名称
-	this.modelName = "admin"
-
-	// 验证登录
-	if this.GetSession("info") == nil {
-		// 查询是否自动登录
-		if this.Ctx.GetCookie("remember") != "" && this.Ctx.GetCookie("username") != "" && this.Ctx.GetCookie("password") != "" {
-			var user admin.User
-			err := admin.Db.Where("username = ?", this.Ctx.GetCookie("username")).First(&user).Error
-			if err !=nil || d.MD5(user.Password + user.Salt) != this.Ctx.GetCookie("password") {
-				fmt.Println("remember login err = ", err)
-				this.Redirect("/admin/login", 302)
-			} else {
-				this.SetSession("info", user)
-			}
-		} else {
-			this.Redirect("/admin/login", 302)
-		}
-	}
+	this.modelName = "index"
 }
 
 // 渲染模板

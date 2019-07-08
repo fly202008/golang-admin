@@ -13,7 +13,23 @@
     /**
      * 数据添加
      */
-    function add(id = 0){
+    function add(){
+        layer.open({
+            type: 2,
+            title: '数据添加',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['90%', '90%'],
+            content: model + "add",
+            end:function()
+            {}
+        });
+    }
+
+    /**
+     * 数据添加
+     */
+    function padd(id){
         layer.open({
             type: 2,
             title: '数据添加',
