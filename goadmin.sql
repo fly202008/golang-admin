@@ -49,6 +49,21 @@ CREATE TABLE `go_book_case` (
 
 /*Data for the table `go_book_case` */
 
+/*Table structure for table `go_channel` */
+
+DROP TABLE IF EXISTS `go_channel`;
+
+CREATE TABLE `go_channel` (
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT '频道ID',
+  `typename` varchar(30) NOT NULL COMMENT '频道名称',
+  `addtable` varchar(50) NOT NULL COMMENT '附加表名',
+  `fieldset` text COMMENT '模型字段配置',
+  `description` varchar(255) DEFAULT NULL COMMENT '描述',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='频道表';
+
+/*Data for the table `go_channel` */
+
 /*Table structure for table `go_member` */
 
 DROP TABLE IF EXISTS `go_member`;
@@ -71,11 +86,18 @@ DROP TABLE IF EXISTS `go_type`;
 CREATE TABLE `go_type` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `name` varchar(155) DEFAULT NULL COMMENT '栏目名称',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级栏目',
   `is_navi` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否导航显示',
+  `icon` varchar(200) NOT NULL DEFAULT 'layui-icon-component' COMMENT '图标',
+  `tmp` varchar(255) NOT NULL COMMENT '模板',
+  `weight` int(10) unsigned NOT NULL DEFAULT '50' COMMENT '权重',
+  `addtime` int(10) unsigned NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `go_type` */
+
+insert  into `go_type`(`id`,`name`,`parent_id`,`is_navi`,`icon`,`tmp`,`weight`,`addtime`) values (1,'玄幻奇幻',0,1,'layui-icon-component','',50,0),(2,'武侠仙侠',0,1,'layui-icon-component','',50,0),(3,'历史军事',0,1,'layui-icon-component','',0,1562498130),(4,'科幻灵异',0,1,'layui-icon-component','',50,1562498182),(5,'网游竞技',0,1,'layui-icon-component','',50,1562498189),(6,'女生频道',0,1,'layui-icon-component','',50,1562498195);
 
 /*Table structure for table `go_user` */
 
