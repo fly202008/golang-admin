@@ -28,7 +28,7 @@ func (this *TypeController) Index() {
 
 // 栏目tree
 func (this *TypeController) DataTree() {
-
+	typeModel.DataTree()
 }
 
 // 设置数据状态

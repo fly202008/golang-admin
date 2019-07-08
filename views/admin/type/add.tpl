@@ -13,11 +13,23 @@
                 <input type="text" name="Name" value="" placeholder="请输入栏目名" autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上级栏目</label>
+            <div class="layui-input-block">
+                <input type="text" name="Name" value="" placeholder="请输入栏目名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">导航显示</label>
             <div class="layui-input-block">
                 <input type="checkbox" name="Is_navi" lay-skin="switch" checked value="1" lay-filter="switchIs_navi" lay-text="显示|隐藏">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">模板</label>
+            <div class="layui-input-block">
+                <input type="text" name="Tmp" value="" placeholder="请输入模板路径" autocomplete="off" class="layui-input">
             </div>
         </div>
 

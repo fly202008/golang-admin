@@ -13,8 +13,21 @@ type Type struct {
 	Name string 	`grom:"size(32)"`
 	Is_navi 	int
 	Parent_id int
+	Icon string
+	Tmp string
 	Weight 	int
 	Addtime int64
+}
+type TypeList struct {
+	Id 	int
+	Name string 	`grom:"size(32)"`
+	Is_navi 	int
+	Parent_id int
+	Icon string
+	Tmp string
+	Weight 	int
+	Addtime int64
+	Childern []*TypeList
 }
 
 // 查询
@@ -29,6 +42,10 @@ func (this Type) Valid(v *validation.Validation) {
 	if this.Name == "" {
 		// 通过 SetError 设置 Name 的错误信息，HasErrors 将会返回 true
 		v.SetError("栏目名", "不能为空")
+	}
+	if this.Tmp == "" {
+		// 通过 SetError 设置 Name 的错误信息，HasErrors 将会返回 true
+		v.SetError("模板", "不能为空")
 	}
 }
 
@@ -50,19 +67,69 @@ func (this Type) FindAll(where TypeWhere) (re []Type, count int) {
 }
 
 // 栏目tree
-func (this Type) DataTree() (re []Type) {
-	err := Db.Order("weight desc, id").Find(&re).Error
-	if err != nil {
-		log.Println(err)
-	} else {
-		//re =
-		fmt.Println("re = ", re)
-	}
+func (this Type) DataTree() (re []*TypeList) {
+	//err := Db.Order("weight desc, id").Find(&re).Error
+	//if err != nil {
+	//	log.Println(err)
+	//} else {
+	//	this.SetTree(re)
+	//	fmt.Println("re = ", re)
+	//}
+	fmt.Println("1111111111")
+	re = this.SetTree(0)
+	fmt.Println("re = ", re)
 	return
 }
 // 设置栏目tree
-func (this Type) SetTree(data []Type) (re []Type) {
+func (this Type) SetTree(pid int) ([]*TypeList) {
+	var data []Type
+	err := Db.Order("weight desc, id").Find(&data).Error
+	if err != nil {
+		log.Println(err)
+	} else {
 
+	}
+	fmt.Println("2222222222")
+
+	typeList := []*TypeList{}
+	for _,v := range data {
+		child := v.SetTree(v.Id)
+		node := &TypeList{
+			Id:v.Id,
+			Name:v.Name,
+			Is_navi:v.Is_navi,
+			Parent_id:v.Parent_id,
+			Icon:v.Icon,
+			Tmp:v.Tmp,
+			Weight:v.Weight,
+			Addtime:v.Addtime,
+		}
+		node.Childern = child
+		typeList = append(typeList, node)
+		fmt.Println("v = ",v)
+	}
+	return typeList
+	//return this.sortTree(data2)
+}
+// 排序
+func (this Type) sortTree(data []Type) (re []Type) {
+	//var data2 []Type
+	for _,v := range data {
+		fmt.Println(v)
+		//fmt.Println(data[v.Parent_id])
+		//判断是否为顶级权限
+		//if data[v.Parent_id] {
+		//
+		//}
+		//if(isset($items[$item['parent_id']])){
+		//// 判断当前数据是否为顶级，
+		////不是顶级就放在它【复制一份】到上级分类的数据里面，
+		////这就是为什么用 & 的原因
+		//$items[$item['parent_id']]['son'][] = &$items[$item['pid']];
+		//}else{
+		//$tree[] = &$items[$item['pid']];
+		//}
+	}
 	return
 }
 
