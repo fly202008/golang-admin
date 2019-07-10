@@ -80,6 +80,23 @@ func init() {
 			// 批量删除
 			beego.NSRouter("/ajaxDelAll", &admin.TypeController{}, "post:AjaxDelAll"),
 		),
+		// 书籍管理
+		beego.NSNamespace("/book",
+			// 列表
+			beego.NSRouter("/index", &admin.BookController{}, "get:Index"),
+			// 设置栏目状态
+			beego.NSRouter("/setStatus", &admin.BookController{}, "get:SetStatus"),
+			// 修改
+			beego.NSRouter("/edit", &admin.BookController{}, "get:Edit"),
+			beego.NSRouter("/ajaxEdit", &admin.BookController{}, "post:AjaxEdit"),
+			// 添加
+			beego.NSRouter("/add", &admin.BookController{}, "get:Add"),
+			beego.NSRouter("/ajaxAdd", &admin.BookController{}, "post:AjaxAdd"),
+			// 删除
+			beego.NSRouter("/ajaxDel", &admin.BookController{}, "get:AjaxDel"),
+			// 批量删除
+			beego.NSRouter("/ajaxDelAll", &admin.BookController{}, "post:AjaxDelAll"),
+		),
 	)
 	beego.AddNamespace(ns)
 }

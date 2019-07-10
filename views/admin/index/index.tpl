@@ -113,6 +113,13 @@
                                 <cite>栏目列表</cite></a>
                         </dd>
                     </dl>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a data-url="/admin/book/index">
+                                <i class="layui-icon" data-icon=""></i>
+                                <cite>书籍列表</cite></a>
+                        </dd>
+                    </dl>
                 </li>
                 <!--<li class="layui-nav-item">-->
                 <!--<a>-->

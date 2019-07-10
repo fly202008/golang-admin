@@ -22,13 +22,13 @@ func (this *TypeController) Index() {
 		this.JsonReuturn(0, "ok", result, count)
 	}
 	//
-	this.Data["tree"] = typeModel.DataTree()
+	//this.Data["tree"] = typeModel.DataTree()
 	this.fetch()
 }
 
 // 栏目tree
 func (this *TypeController) DataTree() {
-	typeModel.DataTree()
+	//typeModel.DataTree()
 }
 
 // 设置数据状态

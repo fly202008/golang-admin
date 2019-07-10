@@ -66,6 +66,14 @@ func (this Type) FindAll(where TypeWhere) (re []Type, count int) {
 	return
 }
 
+func (this Type) GetList() (re []Type) {
+	err := Db.Find(&re).Error
+	if err != nil {
+		log.Println(err)
+	}
+	return
+}
+
 // 栏目tree
 func (this Type) DataTree() (re []*TypeList) {
 	//err := Db.Order("weight desc, id").Find(&re).Error
