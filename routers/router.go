@@ -36,6 +36,17 @@ func init() {
 	)
 	beego.AddNamespace(ns2)
 
+	// api
+	api_book := beego.NewNamespace("/book",
+		// book分类
+		beego.NSRouter("/class", &index.BookController{}, "get:ClassList"),
+		// book列表
+		beego.NSRouter("/list", &index.BookController{}, "get:List"),
+		// book内容
+		beego.NSRouter("/show", &index.BookController{}, "get:Show"),
+	)
+	beego.AddNamespace(api_book)
+
 
 	// 后台
 	ns := beego.NewNamespace("/admin",

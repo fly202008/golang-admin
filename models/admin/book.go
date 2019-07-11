@@ -147,6 +147,15 @@ func (this *Book) Add(data Book) (code int, msg string) {
 	return
 }
 
+// 批量添加
+//func (this *Book) AddAll(data []Book) (code int, msg string) {
+//	for _,v := range data {
+//		// 验证
+//
+//	}
+//
+//}
+
 // 删除
 func (this *Book) AjaxDel(id int) (code int, msg string) {
 	err := Db.Where("id = ?", id).Delete(this).Error
@@ -185,7 +194,7 @@ func RandomString() string {
 	return string(b)
 }
 
-func (this *Book) SearchBook(weburl string) (re Book) {
+func (this *Book) SearchBook(weburl string, typeid int) (re []Book) {
 	c := colly.NewCollector(
 		colly.Debugger(&debug.LogDebugger{}),
 		// 只访问域名
@@ -198,18 +207,24 @@ func (this *Book) SearchBook(weburl string) (re Book) {
 	})
 
 	// 获取单本数据地址
-	c.OnHTML(".search-list ul", func(e *colly.HTMLElement) {
+	c.OnHTML(".search-list ul li .s2 a", func(e *colly.HTMLElement) {
 		ch := e.DOM
-		ch = ch.Find("li:nth-of-type(2) .s2 a")
+		//ch = ch.Find("")
 		url,_ := ch.Attr("href")
 		fmt.Println("url = ", url)
-		//re = GetBookInfo(url)
+		re = GetBookInfo(url, typeid)
 	})
 	c.Visit(weburl)
 	return
 }
 
-func GetBookInfo(weburl string) (re Book) {
+// 批量采集录入时的错误信息
+type errArr struct {
+	name string
+	info string
+}
+
+func GetBookInfo(weburl string, typeid int) (re []Book) {
 	c := colly.NewCollector(
 		colly.Debugger(&debug.LogDebugger{}),
 		// 只访问域名
@@ -224,10 +239,23 @@ func GetBookInfo(weburl string) (re Book) {
 	// 获取单本数据地址
 	c.OnHTML("html", func(e *colly.HTMLElement) {
 		ch := e.DOM
-		fmt.Println(ch.Find("meta[property='og:title']").Attr("content"))
+		// 采集书籍ID
+		copyid,_ := ch.Find("meta[property='og:url']").Attr("content")
+		copyid = strings.Replace(copyid,"https://www.qu.la/book/","",1)
+		copyid = strings.Replace(copyid,"/","",1)
+		copyid2,_ := strconv.Atoi(copyid)
+		fmt.Println("copyid = ", copyid)
+
+		// 查询书籍ID去重
+		err := Db.Where("copy_id = ?", copyid).First(&re).Error
+		if err == nil {
+			// 找到记录就退出
+			return
+		}
 
 		// 书名
-		name, _ := ch.Find("meta[property='og:title']").Attr("content")
+		name, _ := ch.Find("meta[property='og:novel:book_name']").Attr("content")
+		fmt.Println("name = ", name)
 		// 作者
 		author,_ := ch.Find("meta[property='og:novel:author']").Attr("content")
 		fmt.Println("author = ", author)
@@ -238,13 +266,8 @@ func GetBookInfo(weburl string) (re Book) {
 		endcase,_ := ch.Find("meta[property='og:novel:latest_chapter_name']").Attr("content")
 		// 小说简介
 		info,_ := ch.Find("meta[property='og:description']").Attr("content")
-		// 采集书籍ID
-		copyid,_ := ch.Find("meta[property='og:url']").Attr("content")
-		fmt.Println("copyid = ", copyid)
-		copyid = strings.Replace(copyid,"https://www.qu.la/book/","",1)
-		copyid = strings.Replace(copyid,"/","",1)
 		// 封面图片
-		re.Image,_ = ch.Find("meta[property='og:image']").Attr("content")
+		fmimg,_ := ch.Find("meta[property='og:image']").Attr("content")
 		// 连载状态
 		statusTmp,_ := ch.Find("meta[property='og:novel:status']").Attr("content")
 		var Status2 int
@@ -255,15 +278,18 @@ func GetBookInfo(weburl string) (re Book) {
 		}else {
 			Status2 = 3
 		}
-		re.Name = name
-		re.Author = author
-		re.Updatatime = updatetime
-		re.Endcase = endcase
-		re.Info = info
-		re.Status = Status2
-		re.CopyId,_ = strconv.Atoi(copyid)
-		//fmt.Println("book = ", re)
 
+		re = append(re,Book{Name:name,Author:author,Updatatime:updatetime,Endcase:endcase,Info:info,Image:fmimg,Status:Status2,CopyId:copyid2,Typeid:typeid})
+
+		//re.Name = name
+		//re.Author = author
+		//re.Updatatime = updatetime
+		//re.Endcase = endcase
+		//re.Info = info
+		//re.Image = image
+		//re.Status = Status2
+		//re.CopyId,_ = strconv.Atoi(copyid)
+		//fmt.Println("book = ", re)
 	})
 	c.Visit(weburl)
 	return

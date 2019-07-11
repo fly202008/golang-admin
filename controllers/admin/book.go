@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"quickstart/models/admin"
 )
 
@@ -43,16 +44,14 @@ func (this *BookController) AjaxAdd() {
 		//url := "https://sou.xanbhx.com/search?siteid=qula&q="
 		name := this.GetString("name")
 		url := this.GetString("url")
-		id,_ := this.GetInt("typeid")
+		typeid,_ := this.GetInt("typeid")
 		// 采集指定书籍
-		book := bookModel.SearchBook(url + name)
-
-		// 整理数据
-		book.Typeid = id
+		book := bookModel.SearchBook(url + name,typeid)
+		fmt.Println("re = ",book)
 
 		// 保存
-		code, msg := bookModel.Add(book)
-		this.JsonReuturn(code, msg)
+		//code, msg := bookModel.AddAll(book)
+		//this.JsonReuturn(code, msg)
 
 	} else {
 		this.JsonReuturn(0, "请求错误")
