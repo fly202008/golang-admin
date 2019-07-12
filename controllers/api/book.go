@@ -1,22 +1,24 @@
-package index
+package api
 
 import (
 	"fmt"
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/debug"
 	"math/rand"
+	"quickstart/controllers/index"
 	"strconv"
 	"strings"
 )
 
 type BookController struct {
-	BaseController
+	index.BaseController
 }
 
 // 栏目
 type Classify struct {
 	Id int
 	Name string
+	Total int // 总页数，因为只能获取不到当前limit条数
 }
 
 // 书籍
@@ -42,7 +44,22 @@ type BookList struct {
 	Info string
 }
 
-//
+// 书籍章节列表
+type ChapterList struct {
+	Id int
+	BookId int
+	Name string
+}
+
+// 书籍章节内容页
+type BookArticle struct {
+	Id int
+	BookId int
+	Name string
+	Body string
+	NextId int //下一章节ID
+	PreId int //上一章节ID
+}
 
 // 查询
 type BookWhere struct{
@@ -52,12 +69,16 @@ type BookWhere struct{
 	Status int
 }
 
-const copyUrl  = "https://m.qu.la"
-const listUrl  = copyUrl + "/wapsort/0_1.html"
+const copyUrl  = "https://m.qu.la" //http://www.xbiquge.la/SearchBook.php,https://www.qu.la
+const copyUrl2  = "https://www.qu.la" //http://www.xbiquge.la/SearchBook.php,
+const listUrl  = copyUrl + "/wapsort/0_1.html" //获取栏目分类url
 const fwCopyUrl = "m.qu.la" // 采集时，只针对此url
+const fwCopyUrl2 = "www.qu.la" // 采集时，只针对此url
+const booklist = "/booklist/" //文章章节链接=https://m.qu.la/booklist/3353.html
+const bookarticledir = "/book/" //文章章节内容链接=https://www.qu.la/book/3353/10586038.html
 
 // https://m.qu.la/wapsort/0_2.html,  一共 7个栏目
-var CopyListUrl [4]string = [4]string{"/wapsort/","7","_",".html"}
+var CopyListUrl = [4]string{"/wapsort/","7","_",".html"}
 
 // 采集
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -76,7 +97,7 @@ func trim(str string) (str2 string) {
 }
 
 // 栏目列表
-func (this *BaseController)ClassList() {
+func (this *BookController)ClassList() {
 	re := copyClassList()
 	this.Data["json"] = re
 	this.ServeJSON()
@@ -96,23 +117,47 @@ func copyClassList () (re []Classify) {
 	// 获取单本数据地址
 	c.OnHTML(".sortChannel_nav a", func(e *colly.HTMLElement) {
 		ch := e.DOM
+		fmt.Println(ch)
 		// id
 		href,_ := ch.Attr("href")
-		fmt.Println("ch = ",href)
-
 		tmpId := strings.Replace(href,"/wapsort/","",1)
 		tmpId = strings.Replace(tmpId,"_1.html","",1)
 		id,_ := strconv.Atoi(tmpId)
 		// name
 		name,_ := ch.Html()
 		name = trim(name)
-		re = append(re,Classify{Name:name,Id:id})
+		// total
+		total := copyListTotal(copyUrl + CopyListUrl[0] + tmpId + CopyListUrl[2] + "1" + CopyListUrl[3])
+		re = append(re,Classify{Name:name,Id:id,Total:total})
+	})
+	c.Visit(listUrl)
+	return
+}
+func copyListTotal(listUrl string) (total2 int) {
+	c := colly.NewCollector(
+		colly.Debugger(&debug.LogDebugger{}),
+		// 只访问域名
+		colly.AllowedDomains(fwCopyUrl),
+	)
+	// User-Agent
+	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("User-Agent", RandomString())
+	})
+	// 获取单本数据地址
+	c.OnHTML("body", func(e *colly.HTMLElement) {
+		ch := e.DOM
+		// total
+		total,_ := ch.Find("#txtPage").Attr("value")
+		total = strings.Replace(total,"1/","",1)
+		total2,_ = strconv.Atoi(total)
+		return
 	})
 	c.Visit(listUrl)
 	return
 }
 
 // 书籍列表，page默认=1，limit只能是10
+// @typeid 分类ID; @page 分页，默认=1
 func (this *BookController)List() {
 	typeid,err := this.GetInt("typeid")
 	if err != nil {
@@ -127,12 +172,11 @@ func (this *BookController)List() {
 	if limit == 0 {
 		limit = 1
 	}
-	weburl := copyUrl+CopyListUrl[0]+strconv.Itoa(typeid)+CopyListUrl[2]+strconv.Itoa(page)+CopyListUrl[3]
-	fmt.Println(weburl)
-	re := copyList(weburl)
+	re := copyList(typeid,page)
 	this.JsonReuturn(1,"200", re)
 }
-func copyList(weburl string) (re []BookList) {
+func copyList(typeid,page int) (re []BookList) {
+	weburl := copyUrl+CopyListUrl[0]+strconv.Itoa(typeid)+CopyListUrl[2]+strconv.Itoa(page)+CopyListUrl[3]
 	c := colly.NewCollector(
 		colly.Debugger(&debug.LogDebugger{}),
 		// 只访问域名
@@ -169,13 +213,15 @@ func copyList(weburl string) (re []BookList) {
 		}
 		re = append(re,BookList{Name:name,BookId:id,Image:image,Author:author,Info:info})
 	})
+
 	c.Visit(weburl)
 	return
 }
 
-// 书籍内容页
+// 书籍介绍页
+// @bookid 书籍ID;
 func (this *BookController)Show() {
-	id,errId := this.GetInt("id")
+	id,errId := this.GetInt("bookid")
 	if errId != nil {
 		this.JsonReuturn(0,"请求参数错误")
 	}
@@ -230,6 +276,91 @@ func copyBookContent(id int) (re Book) {
 		re = Book{Id:id,Name:name,Image:image,Author:author,Info:info,Status:status,Endcase:endcase,EndcaseId:endcaseId,Updatatime:updatetime}
 	})
 
+	c.Visit(weburl)
+	return
+}
+
+// 书籍章节列表
+// @bookid 书籍ID;
+func (this *BookController)Chapter() {
+	id,errId := this.GetInt("bookid") // 书籍ID
+	if errId != nil {
+		this.JsonReuturn(0,"请求参数错误")
+	}
+	re := copyBooklist(id)
+	this.JsonReuturn(1,"ok", re)
+}
+func copyBooklist(bookid int) (re []ChapterList) {
+	weburl := copyUrl + booklist + strconv.Itoa(bookid) + ".html"
+
+	c := colly.NewCollector(
+		colly.Debugger(&debug.LogDebugger{}),
+		// 只访问域名
+		colly.AllowedDomains(fwCopyUrl),
+	)
+	// User-Agent
+	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("User-Agent", RandomString())
+	})
+
+	// 获取单本数据地址
+	c.OnHTML("#chapterlist p:nth-of-type(n+2)", func(e *colly.HTMLElement) {
+		ch := e.DOM
+		// 章节名
+		name, _ := ch.Find("a").Html()
+		fmt.Println("name = ",name)
+		// 章节ID
+		id, _ := ch.Find("a").Attr("href")
+		id = strings.Replace(id,"/book/"+strconv.Itoa(bookid)+"/","",1)
+		id = strings.Replace(id,".html","",1)
+		chapterId,_ := strconv.Atoi(id)
+		fmt.Println("id = ",id)
+		re = append(re,ChapterList{Id:chapterId,BookId:bookid,Name:name})
+	})
+
+	c.Visit(weburl)
+	return
+}
+
+// 书籍章节内容页
+// @bookid 书籍ID;  @articleid  章节ID;
+func (this *BookController)Article() {
+	bookid,errId := this.GetInt("bookid") // 书籍ID
+	articleid,errArticleid := this.GetInt("articleid") // 章节ID
+	if errId != nil || errArticleid != nil {
+		this.JsonReuturn(0,"请求参数错误")
+	}
+	re := copyBookArticle(bookid,articleid)
+	this.JsonReuturn(1,"ok", re)
+}
+func copyBookArticle(bookid,articleid int) (re BookArticle) {
+	weburl := copyUrl2 + bookarticledir + strconv.Itoa(bookid) + "/" + strconv.Itoa(articleid) + ".html"
+	c := colly.NewCollector(
+		colly.Debugger(&debug.LogDebugger{}),
+		colly.AllowedDomains(fwCopyUrl, fwCopyUrl2),
+	)
+	// User-Agent
+	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("User-Agent", RandomString())
+	})
+	// 获取单本数据地址
+	c.OnHTML(".content_read .box_con", func(e *colly.HTMLElement) {
+		ch := e.DOM
+		// 章节名
+		name, _ := ch.Find(".bookname h1").Html()
+		// 上一章ID
+		preid,_ := ch.Find(".bookname .bottem1 #pager_prev").Attr("href")
+		preid = strings.Replace(preid,".html","",1)
+		preid2,_ := strconv.Atoi(preid)
+		// 下一章ID
+		naxtid,_ := ch.Find(".bookname .bottem1 #pager_next").Attr("href")
+		naxtid = strings.Replace(naxtid,".html","",1)
+		naxtid2,_ := strconv.Atoi(naxtid)
+		// 章节ID
+		Body, _ := ch.Find("#content").Html()
+		re = BookArticle{Id:articleid,BookId:bookid,Name:name,Body:Body,PreId:preid2,NextId:naxtid2}
+		fmt.Println("Re = ", re)
+	})
 	c.Visit(weburl)
 	return
 }

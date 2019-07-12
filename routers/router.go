@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"quickstart/controllers"
 	"quickstart/controllers/admin"
+	"quickstart/controllers/api"
 	"quickstart/controllers/common"
 	"quickstart/controllers/index"
 )
@@ -27,23 +28,35 @@ func init() {
 	beego.AddNamespace(common)
 
 	// 前台
-	beego.Router("/", &controllers.MainController{})
-	ns2 := beego.NewNamespace("/book",
-		// book首页
-		beego.NSRouter("/index", &index.IndexController{}, "get:Index"),
-		// book分类页
-		beego.NSRouter("/index", &index.IndexController{}, "get:Index"),
-	)
-	beego.AddNamespace(ns2)
+	beego.Router("/bee", &controllers.MainController{})
+	beego.Router("/", &index.IndexController{},"get:Index")
+	beego.Router("/type", &index.IndexController{},"get:Type")
+	beego.Router("/list", &index.IndexController{},"get:List")
+	beego.Router("/book", &index.IndexController{},"get:Book")
+	beego.Router("/article", &index.IndexController{},"get:Article")
+	beego.Router("/booklist", &index.IndexController{},"get:Booklist")
+	//ns2 := beego.NewNamespace("/book",
+	//	// book首页
+	//	beego.NSRouter("/index", &index.IndexController{}, "get:Index"),
+	//	// book分类页
+	//	beego.NSRouter("/index", &index.IndexController{}, "get:Index"),
+	//)
+	//beego.AddNamespace(ns2)
 
 	// api
-	api_book := beego.NewNamespace("/book",
-		// book分类
-		beego.NSRouter("/class", &index.BookController{}, "get:ClassList"),
-		// book列表
-		beego.NSRouter("/list", &index.BookController{}, "get:List"),
-		// book内容
-		beego.NSRouter("/show", &index.BookController{}, "get:Show"),
+	api_book := beego.NewNamespace("/api",
+		beego.NSNamespace("/book",
+			// book分类
+			beego.NSRouter("/class", &api.BookController{}, "get:ClassList"),
+			// book列表
+			beego.NSRouter("/list", &api.BookController{}, "get:List"),
+			// book内容
+			beego.NSRouter("/show", &api.BookController{}, "get:Show"),
+			// book章节列表
+			beego.NSRouter("/chapter", &api.BookController{}, "get:Chapter"),
+			// book章节列表
+			beego.NSRouter("/article", &api.BookController{}, "get:Article"),
+		),
 	)
 	beego.AddNamespace(api_book)
 
