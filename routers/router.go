@@ -30,11 +30,13 @@ func init() {
 	// 前台
 	beego.Router("/bee", &controllers.MainController{})
 	beego.Router("/", &index.IndexController{},"get:Index")
-	beego.Router("/type", &index.IndexController{},"get:Type")
 	beego.Router("/list", &index.IndexController{},"get:List")
-	beego.Router("/book", &index.IndexController{},"get:Book")
+	beego.Router("/book/", &index.IndexController{},"get:Book")
+	beego.Router("/cs/?:id", &index.IndexController{},"get:Cs")
+	//beego.Router("/list/:id", &home.HomeController{}, "get:List")
 	beego.Router("/article", &index.IndexController{},"get:Article")
-	beego.Router("/booklist", &index.IndexController{},"get:Booklist")
+	// book搜索
+	beego.Router("/search", &index.IndexController{}, "get:Search")
 	//ns2 := beego.NewNamespace("/book",
 	//	// book首页
 	//	beego.NSRouter("/index", &index.IndexController{}, "get:Index"),
@@ -56,6 +58,8 @@ func init() {
 			beego.NSRouter("/chapter", &api.BookController{}, "get:Chapter"),
 			// book章节列表
 			beego.NSRouter("/article", &api.BookController{}, "get:Article"),
+			// book搜索
+			beego.NSRouter("/search", &api.BookController{}, "get:Search"),
 		),
 	)
 	beego.AddNamespace(api_book)

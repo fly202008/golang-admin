@@ -154,7 +154,7 @@ i,em{font-style: normal;}
 .bookbox .delbutton .del_but{border:1px solid #ff4643;background: none;color: #ff4643;box-sizing:border-box;}
 .book_more{margin:10px 10px 0 10px;line-height:42px;background:#65bbec;border-radius:6px;}.book_more a{text-align:center;display:block;color:#fff;}
 /*footer*/
-.footer{height:30px;background:#ECF0F0;padding:3px 0 0;border-top:1px solid #f1f1f1;line-height:26px;text-align:center;padding-top:20px;padding-bottom:120px}
+.footer{height:30px;background:#ECF0F0;padding:10px 0;border-top:1px solid #007BB1;line-height:26px;text-align:center;}
 .footer li{float:left;text-align:center;width:33%;font-size:16px}
 .footer li a{color:#000}
 .str-over-dot{white-space: nowrap;text-overflow:ellipsis;overflow:hidden;width: 100%;}

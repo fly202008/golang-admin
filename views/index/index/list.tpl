@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
-    <title>分类</title>
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
+    <title>分类【{{.config.title}}】_{{.config.title}}小说网_{{.config.title}}小说阅读网_{{.config.title}}</title>
+    <meta name="keywords" content="{{.config.keywords}}" />
+    <meta name="description" content="{{.config.description}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="stylesheet" type="text/css" href="/static/index/Css/reset.css" />
-    <link rel="stylesheet" type="text/css" href="/static/index/Css/sort.css" />
+    <link rel="stylesheet" type="text/css" href="/static/index/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/static/index/css/sort.css" />
 </head>
 <body>
 <header class="channelHeader">
@@ -44,11 +44,9 @@
         {{end}}
     </div>
     <p class="page">
-        <a href="/list?id={{.id}}&page={{.next}}">
-            [上页]</a>
+        {{if ne 0 .pre}}<a href="/list?typeid={{.id}}&page={{.pre}}">[上页]</a>{{end}}
         <input type="text" class="page_txt" value="{{.page}}/{{.total}}" size="5" name="txtPage" id="txtPage" />
-        <a id="nextPage" href="/list?id={{.id}}&page={{.next}}">
-            [下页]</a>
+        {{if ne 0 .next}}<a id="nextPage" href="/list?typeid={{.id}}&page={{.next}}">[下页]</a>{{end}}
     </p>
     <br />
 </div>
@@ -81,7 +79,7 @@
     <a href="#top"><svg class="lnr lnr-arrow-up-circle"><use xlink:href="#lnr-arrow-up-circle"></use></svg></a>
     <p class="version channel">
         <a href="/">首页</a>
-        <a href="/modules/article/bookcase.php" onclick="beforeBookCase(this)">我的书架</a>
+        <a href="/" onclick="beforeBookCase(this)">我的书架</a>
     </p>
 </footer>
 

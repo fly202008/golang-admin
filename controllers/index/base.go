@@ -39,6 +39,12 @@ func (this *BaseController) Prepare() {
 	this.actionName = strings.ToLower(this.actionName)
 	// 当前模型名称
 	this.modelName = "index"
+	// 全局变量
+	var config = make(map[string]string)
+	config["title"] = "CopyBook"
+	config["keywords"] = "小说在线阅读,"+config["title"]+"小说阅读网，"+config["title"]+"无弹窗小说阅读网"
+	config["description"] = config["title"]+"是广大书友最值得收藏的网络小说阅读网，"+config["title"]+"引入了当前最火热的网络小说，"+config["title"]+"免费提供高质量的小说最新章节，"+config["title"]+"是广大网络小说爱好者必备的小说阅读网。"
+	this.Data["config"] = config
 }
 
 // 渲染模板

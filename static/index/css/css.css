@@ -133,7 +133,7 @@ a{color:#000;text-decoration:none}
 .login_btn a{display:block;margin:20px 10px 20px 10px;text-align:center;color:#fff;font-weight:700;height:40px;line-height:40px;border-radius:2px}
 .login .login_save{width:40px;vertical-align:middle}
 .login_tips{color:red;font-size:14px;height:20px;line-height:20px;text-align:center;margin-top:10px}
-.footer{height:30px;background:#ECF0F0;padding:3px 0 0;border-top:1px solid #ddd;line-height:26px;text-align:center;padding-top:20px;padding-bottom:120px;position:relative;z-index:999}
+.footer{height:30px;background:#ECF0F0;padding:10px 0;border-top:1px solid #007BB1;line-height:26px;text-align:center;position:relative;z-index:999}
 .footer li{float:left;text-align:center;width:33%;font-size:16px}
 .footer li a{color:#000}
 .foot{text-align:center;margin:20px 5px 0 5px;padding:10px 0;height:30px;border-top:2px solid #0065B5;position:relative;z-index:999}

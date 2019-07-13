@@ -25,6 +25,7 @@ type Classify struct {
 type Book struct {
 	Id int
 	Typeid int // 栏目id
+	Typename string // 不准确的name
 	Name string
 	Author string
 	Updatatime string // 最后更新时间
@@ -61,12 +62,14 @@ type BookArticle struct {
 	PreId int //上一章节ID
 }
 
-// 查询
-type BookWhere struct{
-	Typeid int
-	Name string
-	Author string
-	Status int
+// 书籍搜索
+type BookSearch struct {
+	SearchId int
+	BookId int
+	Name string // 书籍名
+	Author string // 栏目|作者
+	Status string // 状态|最新章节
+	Total int // 总页数
 }
 
 const copyUrl  = "https://m.qu.la" //http://www.xbiquge.la/SearchBook.php,https://www.qu.la
@@ -273,7 +276,16 @@ func copyBookContent(id int) (re Book) {
 		}else {
 			status = 3
 		}
-		re = Book{Id:id,Name:name,Image:image,Author:author,Info:info,Status:status,Endcase:endcase,EndcaseId:endcaseId,Updatatime:updatetime}
+		// 栏目id
+		typename,_ := ch.Find("meta[property='og:novel:category']").Attr("content")
+		typelist := []string{"全部","玄幻奇幻","武侠仙侠","都市言情","历史军事","科幻灵异","网游竞技","女生频道"}
+		typeid := 0
+		for i := 0; i < len(typelist); i++ {
+			if typelist[i] == typename {
+				typeid = i
+			}
+		}
+		re = Book{Id:id,Name:name,Image:image,Author:author,Info:info,Status:status,Endcase:endcase,EndcaseId:endcaseId,Updatatime:updatetime,Typeid:typeid,Typename:typename}
 	})
 
 	c.Visit(weburl)
@@ -357,9 +369,83 @@ func copyBookArticle(bookid,articleid int) (re BookArticle) {
 		naxtid = strings.Replace(naxtid,".html","",1)
 		naxtid2,_ := strconv.Atoi(naxtid)
 		// 章节ID
-		Body, _ := ch.Find("#content").Html()
-		re = BookArticle{Id:articleid,BookId:bookid,Name:name,Body:Body,PreId:preid2,NextId:naxtid2}
-		fmt.Println("Re = ", re)
+		body, _ := ch.Find("#content").Html()
+		body = strings.Replace(body,"<script>chaptererror();</script>","",1)
+		re = BookArticle{Id:articleid,BookId:bookid,Name:name,Body:body,PreId:preid2,NextId:naxtid2}
+	})
+	c.Visit(weburl)
+	return
+}
+
+// 获取搜索数据
+func (this *BookController)Search() {
+	keyword := this.GetString("keyword") // 关键字
+	page,errpage := this.GetInt("page") // 章节ID
+	if errpage != nil {
+		page = 1
+	}
+	fmt.Println("keyword = ", keyword)
+	re := copySearchBook(keyword,page)
+	this.JsonReuturn(1,"ok", re)
+}
+func copySearchBook(keyword string, page int) (re []BookSearch) {
+	weburl := "https://sou.xanbhx.com/search?siteid=qula&t=m&q="+keyword+"&page=" + strconv.Itoa(page)
+
+
+	c := colly.NewCollector(
+		colly.Debugger(&debug.LogDebugger{}),
+		colly.AllowedDomains(),
+	)
+	// User-Agent
+	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("User-Agent", RandomString())
+	})
+	// 获取单本数据地址
+	c.OnHTML(".mybook .hot_sale", func(e *colly.HTMLElement) {
+		ch := e.DOM
+		// id
+		searchid, _ := ch.Find("span").Html()
+		searchid = trim(searchid)
+		searchid2,_ := strconv.Atoi(searchid)
+		// bookid
+		bookid, _ := ch.Find("a").Attr("href")
+		bookid = strings.Replace(bookid,"https://m.qu.la/book/","",1)
+		bookid = strings.Replace(bookid,"/","",1)
+		bookid2,_ := strconv.Atoi(bookid)
+		// 书籍名
+		name, _ := ch.Find("p.title").Html()
+		name = trim(name)
+		// 栏目|作者
+		author,_ := ch.Find("p:nth-child(2)").Html()
+		author = trim(author)
+		// 状态|最新章节
+		status,_ := ch.Find("p:nth-child(3)").Html()
+		status = trim(status)
+		// 总共total
+		total := copySearchBookTotal(weburl)
+		//
+		re = append(re,BookSearch{SearchId:searchid2,BookId:bookid2,Name:name,Author:author,Total:total,Status:status})
+	})
+	c.Visit(weburl)
+	return
+}
+func copySearchBookTotal(weburl string) (total int) {
+	c := colly.NewCollector(
+		colly.Debugger(&debug.LogDebugger{}),
+		colly.AllowedDomains(),
+	)
+	// User-Agent
+	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("User-Agent", RandomString())
+	})
+	// 获取单本数据地址
+	c.OnHTML(".mybook", func(e *colly.HTMLElement) {
+		ch := e.DOM
+		// total
+		totaltmp, _ := ch.Find("#txtPage").Attr("value")
+		totaltmp = totaltmp[strings.Index(totaltmp,"/")+1:]
+		total2,_ := strconv.Atoi(totaltmp)
+		total = total2
 	})
 	c.Visit(weburl)
 	return
