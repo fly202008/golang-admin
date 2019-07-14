@@ -5,6 +5,7 @@ import (
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/debug"
 	"math/rand"
+	"quickstart/models/index"
 	"strconv"
 	"strings"
 )
@@ -149,6 +150,50 @@ func (this *IndexController)Search() {
 	this.Data["data"] = re
 	this.fetch()
 }
+
+var memberModel = new(index.Member)
+
+// 注册
+func (this *IndexController) Register() {
+	if this.Ctx.Input.IsAjax() {
+		// 接受
+		username := this.GetString("username")
+		password := this.GetString("password")
+		email := this.GetString("email")
+		// 验证
+		fmt.Println("=====")
+		fmt.Println("username = ", username)
+		if username == "" {
+			this.JsonReuturn(0, "用户名不能为空")
+		} else {
+			_,err := memberModel.Find(username)
+			fmt.Println("err = ", err)
+			if err != nil {
+				this.JsonReuturn(0, "用户名已存在")
+			}
+		}
+		fmt.Println("111111111111")
+		if password == "" {
+			this.JsonReuturn(0, "密码不能为空")
+		}
+		if email == "" {
+			this.JsonReuturn(0, "邮箱不能为空")
+		}
+		// 保存
+		data := index.Member{}
+		if err := this.ParseForm(&data); err != nil {
+			this.JsonReuturn(0, "赋值失败")
+		}
+		code, msg := memberModel.Add(data)
+		// 自动登录
+		if code == 1 {
+			this.Ctx.SetCookie("member_username", username, 30 * 86000)
+		}
+		this.JsonReuturn(code, msg)
+	}
+	this.fetch()
+}
+
 
 
 // 栏目

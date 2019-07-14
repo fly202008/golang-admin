@@ -37,6 +37,9 @@ func init() {
 	beego.Router("/article", &index.IndexController{},"get:Article")
 	// book搜索
 	beego.Router("/search", &index.IndexController{}, "get:Search")
+	// register
+	beego.Router("/register", &index.IndexController{}, "*:Register")
+
 	//ns2 := beego.NewNamespace("/book",
 	//	// book首页
 	//	beego.NSRouter("/index", &index.IndexController{}, "get:Index"),
