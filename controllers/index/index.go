@@ -110,12 +110,42 @@ func (this *IndexController)Article() {
 func (this *IndexController)Search() {
 	keyword := this.GetString("keyword") // 关键字
 	page,errpage := this.GetInt("page") // 章节ID
+
 	if errpage != nil {
 		page = 1
 	}
-	re := copySearchBook(keyword,page)
-	// 下一页
 
+	re := copySearchBook(keyword,page)
+	// 最大页数
+	var total int
+	if re == nil {
+		total = 0
+	} else {
+		total = re[0].Total
+	}
+	// 当前页 + 下一页
+	next := 0
+	if page > total {
+		page = total
+	} else if page == total {
+		next = 0
+	} else {
+		next = page + 1
+	}
+	// 上一页
+	pre := 0
+	if page <= 1 {
+		pre = 0
+	} else {
+		pre = page - 1
+	}
+	pageData := make(map[string]int)
+	pageData["page"] = page
+	pageData["pre"] = pre
+	pageData["next"] = next
+	pageData["total"] = total
+	this.Data["pageData"] = pageData
+	this.Data["keyword"] = keyword
 	this.Data["data"] = re
 	this.fetch()
 }

@@ -2,7 +2,6 @@ package admin
 
 import (
 	"fmt"
-	_ "github.com/labstack/echo"
 	"quickstart/models/admin"
 	_ "time"
 )

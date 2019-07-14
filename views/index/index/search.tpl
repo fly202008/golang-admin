@@ -26,11 +26,8 @@
         </svg>
     </a>
 </header>
-<form class="searchForm" action="" method="" data-target0="" data-target1="/search">
-    <input type="search" name="q" class="searchForm_input searchForm_input2" placeholder="输入书名•作者"/>
-    <input type="hidden" name="s" value="920895234054625192"/>
-    <input type="hidden" name="t" value="m"/>
-    <input type="hidden" name="siteid" value="qula"/>
+<form class="searchForm" name="from1" autocomplete="off" action="/search" method="get">
+    <input type="search" name="keyword" value="{{.keyword}}" class="searchForm_input searchForm_input2" placeholder="输入书名•作者"/>
 
     <span class="serach_span">
          <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></span>
@@ -39,16 +36,9 @@
 
     <div class="searchTarge">
         <p class="TargeTitle">
-            <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use
-                            xlink:href="#lnr-magnifier"></use></svg></span>
+            <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></span>
             <span class="TargeCurrent" data-id="1">站内</span>
-            <span class="s_chevrondown"><svg class="lnr lnr-chevron-down"><use
-                            xlink:href="#lnr-chevron-down"></use></svg></span>
         </p>
-        <ul class="TargeList" class="active">
-            <li data-id="1">站内</li>
-            <li data-id="0">百度</li>
-        </ul>
     </div>
 </form>
 <div class="recommend mybook">
@@ -61,56 +51,37 @@
             <p class="author">{{$v.Status}}</p>
         </a>
     </div>
+        {{else}}
+        未找到数据...
     {{end}}
-    <div class="hot_sale hot_saleEm">
-        <span class="num num2"> 22</span>
-        <a href="https://m.qu.la/book/93858/">
-            <p class="title">
-                人间天                </p>
-            <p class="author">
-                玄幻奇幻 | 作者：南风秦                </p>
-            <p class="author">
-                连载 | 更新：第五十二章:返祖                </p>
-        </a>
-    </div>
-
 
     <p class="page">
-        <a href="?siteid=qula&t=m&q=天&page=1">
-            [上页]
-        </a>
-        <input type="text" class="page_txt" value="2/88"
-               size="5" name="txtPage" id="txtPage"/>
-        <a id="nextPage"
-           href="?siteid=qula&t=m&q=天&page=3">
-            [下页]
-        </a>
+        {{if eq 0 .pageData.pre}}
+            {{else}}
+            <a href="/search?keyword={{.keyword}}&page={{.pageData.pre}}">[上页]</a>
+        {{end}}
+
+        <input type="text" class="page_txt" value="{{.pageData.page}}/{{.pageData.total}}" size="5" name="txtPage" id="txtPage"/>
+
+        {{if eq 0 .pageData.next}}
+            {{else}}
+            <a id="nextPage" href="/search?keyword={{.keyword}}&page={{.pageData.next}}">[下页]</a>
+        {{end}}
     </p>
 </div>
 
-<form class="searchForm" action="" method="" data-target0="" data-target1="/search">
-    <input type="search" name="q" class="searchForm_input searchForm_input2" placeholder="输入书名•作者"/>
-    <input type="hidden" name="s" value="920895234054625192"/>
-    <input type="hidden" name="t" value="m"/>
-    <input type="hidden" name="siteid" value="qula"/>
-
+<form class="searchForm" action="" method="" data-target0="" data-target1="/search" autocomplete="off">
+    <input type="search" name="keyword" value="{{.keyword}}" class="searchForm_input searchForm_input2" placeholder="输入书名•作者"/>
     <span class="serach_span">
          <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></span>
-         <span class="s_submitbtn">搜索</span>
+         <span class="s_submitbtn" onclick="submit()">搜索</span>
     </span>
 
     <div class="searchTarge">
         <p class="TargeTitle">
-            <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use
-                            xlink:href="#lnr-magnifier"></use></svg></span>
+            <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></span>
             <span class="TargeCurrent" data-id="1">站内</span>
-            <span class="s_chevrondown"><svg class="lnr lnr-chevron-down"><use
-                            xlink:href="#lnr-chevron-down"></use></svg></span>
         </p>
-        <ul class="TargeList" class="active">
-            <li data-id="1">站内</li>
-            <li data-id="0">百度</li>
-        </ul>
     </div>
 </form>
 
@@ -121,12 +92,16 @@
         </svg>
     </a>
     <p class="version channel">
-        <a href="https://m.qu.la/">首页</a>
+        <a href="/">首页</a>
     </p>
 </footer>
 
 <script type="text/javascript" src="/static/index/scripts/zepto.min.js"></script>
-<script type="text/javascript" src="/static/index/scripts/searchwap.js"></script>
+<script language="javascript" type="text/javascript" src="/static/index/scripts/common.js"></script>
+{{/*<script language="javascript" type="text/javascript" src="/static/index/scripts/sort.js"></script>*/}}
+{{/*<script language="javascript" type="text/javascript" src="/static/index/scripts/lazyload.js"></script>*/}}
+{{/*<script type="text/javascript" src="/static/index/scripts/searchwap.js"></script>*/}}
+
 </body>
 </html>
 

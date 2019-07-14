@@ -54,25 +54,20 @@
 <script language="javascript" type="text/javascript" src="/static/index/scripts/common.js"></script>
 <script language="javascript" type="text/javascript" src="/static/index/scripts/sort.js"></script>
 <script language="javascript" type="text/javascript" src="/static/index/scripts/lazyload.js"></script>
-<form class="searchForm" action="" method="" data-target0="" data-target1="/SearchBook.php">
-    <input type="search" name="q" class="searchForm_input searchForm_input2" placeholder="输入书名•作者" />
-    <input type="hidden" name="s" value="920895234054625192" />
-    <input type="hidden" name="t" value="m">
-    <input type="hidden" name="siteid" value="qula">
+<form class="searchForm" name="from1" autocomplete="off" action="/search" method="get">
+    <input type="search" name="keyword" class="searchForm_input searchForm_input2" placeholder="输入书名•作者"/>
+
     <span class="serach_span">
-        <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></span>
-        <span class="s_submitbtn">搜索</span>
+         <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></span>
+         <span class="s_submitbtn">搜索</span>
     </span>
+
     <div class="searchTarge">
         <p class="TargeTitle">
-            <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></span>
+            <span class="s_magnifier"><svg class="lnr lnr-magnifier"><use
+                            xlink:href="#lnr-magnifier"></use></svg></span>
             <span class="TargeCurrent" data-id="1">站内</span>
-            <span class="s_chevrondown"><svg class="lnr lnr-chevron-down"><use xlink:href="#lnr-chevron-down"></use></svg></span>
         </p>
-        <ul class="TargeList" class="active">
-            <li data-id="1">站内</li>
-            <li data-id="0">百度</li>
-        </ul>
     </div>
 </form>
 <footer>

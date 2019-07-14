@@ -33,14 +33,16 @@
         </ul>
     </div>
     <div class="search">
-        <table cellpadding="0" cellspacing="0" style="width:100%;">
-            <tbody>
-            <tr>
-                <td style="background-color:#fff; border:1px solid #CCC;"><input id="s_key" name="q" type="text" class="key" value="输入书名后搜索，宁可少字不要错字" onfocus="this.value=''"></td>
-                <td style="width:35px; background-color:#0080C0; background-image:url('/static/index/picture/search.png'); background-repeat:no-repeat; background-position:center;cursor: pointer;"><input name="submit" type="submit" value="" class="go"></td>
-            </tr>
-            </tbody>
-        </table>
+        <form action="/search">
+            <table cellpadding="0" cellspacing="0" style="width:100%;">
+                <tbody>
+                <tr>
+                    <td style="background-color:#fff; border:1px solid #CCC;"><input id="s_key" name="keyword" type="text" class="key" value="输入书名后搜索，宁可少字不要错字" onfocus="this.value=''"></td>
+                    <td style="width:35px; background-color:#0080C0; background-image:url('/static/index/picture/search.png'); background-repeat:no-repeat; background-position:center;cursor: pointer;"><input name="submit" type="submit" value="" class="go"></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
     </div>
 {{/*    <div class="article">*/}}
 {{/*        <h2 class="title"><span>封面推荐</span></h2>*/}}

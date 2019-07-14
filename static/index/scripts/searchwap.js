@@ -13,38 +13,38 @@
         '</defs></svg></div>')
 }();
 
-$(function () {
-    //search
-    var tr = function () {
-        var o = $(".TargeList");
-        if (o.hasClass('active')) {
-            o.removeClass('active');
-        }
-        else {
-            o.addClass('active');
-        }
-    };
-    $(".TargeTitle").on("click", tr);
-    $(".TargeList>li").on("click", function () {
-        var o = $(this), c = $(".TargeCurrent"), s = $(".searchForm");
-        c.html(o.html());
-        c.data("id", o.data("id"));
-        var i = o.data("id");
-        s.attr("action", s.data("target" + i));
-        //$(".TargeTitle").trigger("click");
-        tr();
-    });
-    $(".serach_span").on("click", function () {
-        $(this).parent().submit();
-    });
-    $(".searchForm").on("submit", function () {
-        var o = $(this), c = $(".TargeCurrent");
-        if (c.data("id") == 0) {
-            o.attr("action", "http://zhannei.baidu.com/cse/search");
-        } else {
-            o.attr("action", "https://sou.xanbhx.com/search");
-        }
-        return true;
-    });
+// $(function () {
+//     //search
+//     var tr = function () {
+//         var o = $(".TargeList");
+//         if (o.hasClass('active')) {
+//             o.removeClass('active');
+//         }
+//         else {
+//             o.addClass('active');
+//         }
+//     };
+//     $(".TargeTitle").on("click", tr);
+//     $(".TargeList>li").on("click", function () {
+//         var o = $(this), c = $(".TargeCurrent"), s = $(".searchForm");
+//         c.html(o.html());
+//         c.data("id", o.data("id"));
+//         var i = o.data("id");
+//         s.attr("action", s.data("target" + i));
+//         //$(".TargeTitle").trigger("click");
+//         tr();
+//     });
+//     $(".serach_span").on("click", function () {
+//         $(this).parent().submit();
+//     });
+//     $(".searchForm").on("submit", function () {
+//         var o = $(this), c = $(".TargeCurrent");
+//         if (c.data("id") == 0) {
+//             o.attr("action", "http://zhannei.baidu.com/cse/search");
+//         } else {
+//             o.attr("action", "https://sou.xanbhx.com/search");
+//         }
+//         return true;
+//     });
 
-});
+// });
