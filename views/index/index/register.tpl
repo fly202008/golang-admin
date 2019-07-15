@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>用户登录</title>
+<title>用户注册</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -19,46 +19,43 @@
   .login_name{border:1px solid #B7F3F9;height:25px;width:95%;border-radius:3px;}
   .login_btn{ display:block;margin:20px 10px 20px 10px; text-align:center;color:#fff; font-weight:bold;height:40px; line-height:40px;border-radius:2px}
   .login_tips{ display:block;margin:20px 10px 20px 10px;  text-align:center;color:red; font-weight:bold;height:40px; line-height:40px;border-radius:2px}
+    .aclick_bat{background-color: #0080C0;color: white;font-weight: bold;font-size: 18px;width: 100%;height: 100%;height:40px;cursor:pointer;}
 </style>
 </head>
 <body>
 <div class="header" id="_bqgmb_head">
     <div class="back"><a href="javascript:history.go(-1);">返回</a></div>
-  <h1 id="_bqgmb_h1">用户登录</h1>
+  <h1 id="_bqgmb_h1">用户注册</h1>
   <div class="back_r"><a href="/">首页</a></div>
-    <script>fixwidth();</script>
 </div>
 
-    <div>
-<form  method="post" action="/register" autocomplete="off">
-      <div class="login">
+<div>
+    <form  method="post" action="/register" autocomplete="off">
+        <div class="login">
             <table>
                 <tr>
-                    <td class="td1">帐号：</td><td><input id="username" autocomplete="off" type="text"  size="20" maxlength="30" class="login_name" name="username"></td>
+                    <td class="td1">帐号：</td><td><input id="username" autocomplete="off" type="text"  size="20" value="admin" maxlength="30" class="login_name" name="username"></td>
                 </tr>
             </table>
-            <table>   
-                <tr>    
-                    <td class="td1">密码：</td><td><input id="userpass" size="20" maxlength="30" type="password" class="login_name" name="password"></td>
+            <table>
+                <tr>
+                    <td class="td1">密码：</td><td><input id="userpass" size="20" maxlength="30" type="password" value="123456" class="login_name" name="password"></td>
                 </tr>
             </table>
-            <table>   
-                <tr>    
-                    <td class="td1">邮箱：</td><td><input id="email" size="20" maxlength="30" type="text" class="login_name" name="email"></td>
+            <table>
+                <tr>
+                    <td class="td1">邮箱：</td><td><input id="email" size="20" maxlength="30" type="text" value="1@qq.com" class="login_name" name="email"></td>
                 </tr>
             </table>
         </div>
-            
-    <a class='login_btn c_login_button'>
-    <div style="background-color: #0080C0;color: white;font-weight: bold;font-size: 18px;width: 100%;height: 100%;height:40px;cursor:pointer;" onclick="register()">注册</div>
 
-</form>
-    </div>
+        <a class='login_btn c_login_button'>
+            <div class="aclick_bat" onclick="register()">注册</div>
+        </a>
+        <div><a class="login_btn c_login_button" href="/login">没有账号？点击登录</a></div>
+    </form>
+</div>
     
-    <!-- <div><a class="login_btn c_login_button" href="/register.php">没有账号？点击注册</a></div> -->
-    
-    <div id="logintips" class="login_tips"></div>
-
 <script>
   function register()
   {

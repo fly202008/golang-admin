@@ -20,7 +20,9 @@
 <div id="app">
     <div class="header">
         <div class="logo"><a href="/">{{.config.title}}</a></div>
-        <div class="reg"></div>
+        <div class="reg">
+            <script>showlogin();</script>
+        </div>
     </div>
     <div class="nav">
         <ul>

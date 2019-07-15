@@ -5,7 +5,9 @@ import (
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/debug"
 	"math/rand"
+	"quickstart/models/admin"
 	"quickstart/models/index"
+	"quickstart/pkg/d"
 	"strconv"
 	"strings"
 )
@@ -156,7 +158,7 @@ var memberModel = new(index.Member)
 // 注册
 func (this *IndexController) Register() {
 	if this.Ctx.Input.IsAjax() {
-		// 接受
+		// 接收
 		username := this.GetString("username")
 		password := this.GetString("password")
 		email := this.GetString("email")
@@ -166,13 +168,12 @@ func (this *IndexController) Register() {
 		if username == "" {
 			this.JsonReuturn(0, "用户名不能为空")
 		} else {
-			_,err := memberModel.Find(username)
-			fmt.Println("err = ", err)
-			if err != nil {
+			re,_ := memberModel.Find(username)
+			// 不存在时 err =  record not found
+			if re != (index.Member{}) {
 				this.JsonReuturn(0, "用户名已存在")
 			}
 		}
-		fmt.Println("111111111111")
 		if password == "" {
 			this.JsonReuturn(0, "密码不能为空")
 		}
@@ -184,12 +185,38 @@ func (this *IndexController) Register() {
 		if err := this.ParseForm(&data); err != nil {
 			this.JsonReuturn(0, "赋值失败")
 		}
+		//fmt.Println("data = ", data)
 		code, msg := memberModel.Add(data)
 		// 自动登录
 		if code == 1 {
-			this.Ctx.SetCookie("member_username", username, 30 * 86000)
+			this.Ctx.SetCookie("member_username", data.Username, 30 * 86000)
 		}
 		this.JsonReuturn(code, msg)
+	}
+	this.fetch()
+}
+
+// 登录
+func (this *IndexController) Login() {
+	if this.Ctx.Input.IsAjax() {
+		// 接收
+		username := this.GetString("username")
+		password := this.GetString("password")
+		// 验证
+		if username == "" {
+			this.JsonReuturn(0, "用户名不能为空")
+		}
+		if password == "" {
+			this.JsonReuturn(0, "密码不能为空")
+		}
+		var member index.Member
+		err := admin.Db.Where("username = ?",username).Where("password = ?",d.MD5(password)).First(&member).Error
+		if err != nil {
+			this.JsonReuturn(0, "登录失败，账号或密码错误")
+		} else {
+			this.Ctx.SetCookie("member_username", username, 30 * 86000)
+			this.JsonReuturn(1, "登录成功")
+		}
 	}
 	this.fetch()
 }

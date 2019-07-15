@@ -22,10 +22,10 @@ document.writeln("</form>");
 document.writeln("</div>");
 }
 function showlogin() {//登陆
-    if (getCookie("username")) {
-        document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/wap/bookcase.php">会员中心</a><a href="/logout.php" class="login_topbtn c_index_login">退出</a></div>');
+    if (getCookie("member_username")) {
+        document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/bookcase">会员中心</a><a href="/logout.php" class="login_topbtn c_index_login">退出</a></div>');
     } else {
-        document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/login.php">登录</a><a href="/register.php" class="login_topbtn c_index_login">注册</a></div>');
+        document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/login">登录</a><a href="/register" class="login_topbtn c_index_login">注册</a></div>');
     }
 }
 function getCookie(name)
