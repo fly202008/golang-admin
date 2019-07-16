@@ -23,7 +23,7 @@ document.writeln("</div>");
 }
 function showlogin() {//登陆
     if (getCookie("member_username")) {
-        document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/member">会员中心</a><a href="/logout" class="login_topbtn c_index_login">退出</a></div>');
+        document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/member">会员中心</a><a href="/loginout" class="login_topbtn c_index_login">退出</a></div>');
     } else {
         document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/login">登录</a><a href="/register" class="login_topbtn c_index_login">注册</a></div>');
     }
@@ -64,7 +64,7 @@ function putbookcase(bid)
 }
 
 //加入书签
-function putbookmark(bid, cid, cname)
+function putbookmark(bid, cid = 0, cname='')
 {
     $.ajax({
         cache:false,

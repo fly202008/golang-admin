@@ -59,7 +59,7 @@
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" data-url="{:url('user/editme')}"><i class="layui-icon layui-icon-edit"></i><cite>修改密码</cite></a></dd>
                         <dd pc><a href="javascript:;" class="changeSkin"><i class="layui-icon">&#xe61b;</i><cite>更换皮肤</cite></a></dd>
-                        <dd><a href="{:url('login/out')}" class="signOut"><i class="layui-icon layui-icon-release"></i><cite>退出</cite></a></dd>
+                        <dd><a href="/admin/loginout" class="signOut"><i class="layui-icon layui-icon-release"></i><cite>退出</cite></a></dd>
                     </dl>
                 </li>
             </ul>

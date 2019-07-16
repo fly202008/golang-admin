@@ -47,7 +47,7 @@
         <a class='login_btn c_login_button'>
             <div class="aclick_bat" onclick="login()">登录</div>
         </a>
-        <div><a class="login_btn c_login_button" href="/login">没有账号？点击注册</a></div>
+        <div><a class="login_btn c_login_button" href="/register">没有账号？点击注册</a></div>
     </form>
 </div>
 

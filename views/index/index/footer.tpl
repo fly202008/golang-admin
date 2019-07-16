@@ -1,8 +1,8 @@
 <div class="footer" style="margin-top: 20px;">
     <ul>
         <li><a href="/">首页</a></li>
-        <li><a href="/">电脑版</a></li>
-        <li><a href="/" >书架</a></li>
+        <li><a href="/member">个人中心</a></li>
+        <li><a href="/member" >书架</a></li>
     </ul>
 </div>
 <div style="position: fixed;bottom: 25px;right: 25px;cursor: pointer;z-index: 1001;">

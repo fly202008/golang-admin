@@ -49,7 +49,7 @@ func init() {
 	beego.Router("/delbookcase", &index.IndexController{}, "get:DelBookCase")
 
 	// 退出
-	beego.Router("/logout", &index.IndexController{},"get:Logout")
+	beego.Router("/loginout", &index.IndexController{},"get:LoginOut")
 
 	//ns2 := beego.NewNamespace("/book",
 	//	// book首页
@@ -87,6 +87,8 @@ func init() {
 
 		// 登录
 		beego.NSRouter("/login", &admin.LoginController{},"*:Login"),
+		// 退出
+		beego.NSRouter("/loginout", &admin.LoginController{},"*:LoginOut"),
 
 		// 用户管理
 		beego.NSNamespace("/user",

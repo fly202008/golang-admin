@@ -54,7 +54,7 @@
     <div style="clear:both"></div>
     <div class="ablum_read" id="btnlist">
         <span class="margin_right"><a href="/article?bookid={{.data.Id}}&articleid={{.startUrl}}">开始阅读</a></span>
-        <span><a href="Javascript:void(0);" onclick="javascript:putbookcase(10489);">加入书架</a></span>
+        <span><a href="Javascript:void(0);" onclick="javascript:putbookmark({{.data.Id}},-1);">加入书架</a></span>
     </div>
     <div class="intro">{{.data.Name}}小说简介</div>
     <div class="intro_info">{{.data.Info}}<br/>最新章节推荐地址：<a href="/article?bookid={{.data.Id}}&articleid={{.data.EndcaseId}}">{{.data.Endcase}}</a>

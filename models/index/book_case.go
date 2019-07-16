@@ -10,7 +10,7 @@ import (
 type BookCase struct {
 	Id int
 	BookId int
-	ArtileId int
+	ArticleId int
 	UserId int
 	Addtime int64
 	EndArticleName string
@@ -22,12 +22,16 @@ func (this *BookCase) Valid(v *validation.Validation) {
 	if this.BookId == 0 {
 		v.SetError("书籍", "未找到")
 	}
-	if this.ArtileId == 0 {
-		v.SetError("章节", "未找到")
+	// 书本直接加入书架穿 -1 过来
+	if this.ArticleId != -1 {
+		if this.EndArticleName == "" {
+			v.SetError("章节名称", "未找到")
+		}
+		if this.ArticleId == 0 {
+			v.SetError("章节", "未找到")
+		}
 	}
-	if this.EndArticleName == "" {
-		v.SetError("章节", "未找到")
-	}
+
 }
 
 // 添加书签
@@ -54,15 +58,31 @@ func (this *BookCase) Add(data BookCase) (code int, msg string) {
 		return
 	}
 	data.Addtime = time.Now().Unix()
-	err := admin.Db.Model(this).Create(&data).Error
-	if err != nil {
-		code = 0
-		msg = "添加失败"
+
+	// 去重
+	re := BookCase{}
+	admin.Db.Where("book_id = ?",data.BookId).Where("user_id = ?",data.UserId).First(&re)
+	if re != (BookCase{}) {
+		err := admin.Db.Model(this).Debug().Where("id = ?",re.Id).Updates(&data).Error
+		if err != nil {
+			code = 0
+			msg = "添加失败"
+		} else {
+			code = 1
+			msg = "修改标签成功"
+		}
+		return
 	} else {
-		code = 1
-		msg = "添加成功"
+		err := admin.Db.Model(this).Create(&data).Error
+		if err != nil {
+			code = 0
+			msg = "添加失败"
+		} else {
+			code = 1
+			msg = "添加成功"
+		}
+		return
 	}
-	return
 }
 
 // 查询书签

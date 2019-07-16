@@ -163,8 +163,6 @@ func (this *IndexController) Register() {
 		password := this.GetString("password")
 		email := this.GetString("email")
 		// 验证
-		fmt.Println("=====")
-		fmt.Println("username = ", username)
 		if username == "" {
 			this.JsonReuturn(0, "用户名不能为空")
 		} else {
@@ -189,11 +187,30 @@ func (this *IndexController) Register() {
 		code, msg := memberModel.Add(data)
 		// 自动登录
 		if code == 1 {
-			this.Ctx.SetCookie("member_username", data.Username, 30 * 86000)
+			re := index.BookCase{}
+			err := admin.Db.First(&re).Error
+			if err != nil {
+				this.Ctx.SetCookie("member_id", strconv.Itoa(re.Id), 30 * 86000)
+				this.Ctx.SetCookie("member_username", data.Username, 30 * 86000)
+			}
 		}
 		this.JsonReuturn(code, msg)
 	}
 	this.fetch()
+}
+
+// 检测登录
+func (this *IndexController) IsLogin() {
+	member_id := this.Ctx.GetCookie("member_id")
+	if this.Ctx.Input.IsAjax(){
+		if member_id == "" {
+			this.JsonReuturn(0, "未登录")
+		}
+	} else {
+		if member_id == "" {
+			this.Redirect("login",302)
+		}
+	}
 }
 
 // 登录
@@ -223,13 +240,15 @@ func (this *IndexController) Login() {
 }
 
 // 退出
-func (this *IndexController) Logout() {
+func (this *IndexController) LoginOut() {
 	this.Ctx.SetCookie("member_id","")
 	this.Ctx.SetCookie("member_username","")
+	this.Redirect("/",302)
 }
 
 // 个人中心，书签页
 func (this *IndexController) Member() {
+	this.IsLogin()
 	uidtmp := this.Ctx.GetCookie("member_id")
 	uid,_ := strconv.Atoi(uidtmp)
 	re,_ := new(index.BookCase).FindAll(uid)
@@ -239,13 +258,14 @@ func (this *IndexController) Member() {
 
 // 添加书签
 func (this *IndexController) AddBookCase() {
+	this.IsLogin()
 	if this.Ctx.Input.IsAjax() {
 		bookId,_ := this.GetInt("bookId")
 		articleId,_ := this.GetInt("articleId")
 		articleName := this.GetString("articleName")
 		uid := this.Ctx.GetCookie("member_id")
 		user_id,_ := strconv.Atoi(uid)
-		data := index.BookCase{BookId:bookId,ArtileId:articleId,EndArticleName:articleName,UserId:user_id}
+		data := index.BookCase{BookId:bookId,ArticleId:articleId,EndArticleName:articleName,UserId:user_id}
 
 		code,msg := new(index.BookCase).Add(data)
 		this.JsonReuturn(code, msg)
@@ -255,7 +275,9 @@ func (this *IndexController) AddBookCase() {
 }
 
 // 删除书签
-func (this *IndexController) DelBookCase(bookId int) {
+func (this *IndexController) DelBookCase() {
+	this.IsLogin()
+	bookId,_ := this.GetInt("bookId")
 	if this.Ctx.Input.IsAjax() {
 		uid := this.Ctx.GetCookie("member_id")
 		user_id,_ := strconv.Atoi(uid)

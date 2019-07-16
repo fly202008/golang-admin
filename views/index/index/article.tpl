@@ -73,7 +73,7 @@
                         <a id="pb_next" href="/article?bookid={{.data.BookId}}&articleid={{.data.NextId}}">下一章</a>
                     {{end}}
                 </td>
-                <td class="mulu"><a id='pb_shouye' href="Javascript:void(0);" onclick="javascript:putbookmark({{.data.BookId}},{{.data.Id}}),'{{.data.Name}}';"><font>存书签</font></a></td>
+                <td class="mulu"><a id='pb_shouye' href="Javascript:void(0);" onclick="javascript:putbookmark({{.data.BookId}},{{.data.Id}},'{{.data.Name}}');"><font>存书签</font></a></td>
             </tr>
         </table>
     </div>

@@ -75,3 +75,11 @@ func (this *LoginController) Login() {
 	//this.Data["capid"] = captchaId
 	this.TplName = "admin/login/index.tpl"
 }
+
+func (this *LoginController) LoginOut() {
+	this.Ctx.SetCookie("remember","")
+	this.Ctx.SetCookie("username","")
+	this.Ctx.SetCookie("password","")
+	this.DelSession("info")
+	this.Redirect("/admin/login",302)
+}
