@@ -18,46 +18,8 @@
 </head>
 <body>
 <div id="app">
-    <div class="header">
-        <div class="logo"><a href="/">{{.config.title}}</a></div>
-        <div class="reg">
-            <script>showlogin();</script>
-        </div>
-    </div>
-    <div class="nav">
-        <ul>
-            <li><a href="/list?id=0">分类</a></li>
-            <li><a href="/list?id=1">玄幻</a></li>
-            <li><a href="/list?id=2">武侠</a></li>
-            <li><a href="/list?id=3">都市</a></li>
-            <li><a href="/list?id=6">网游</a></li>
-            <div class="cc"></div>
-        </ul>
-    </div>
-    <div class="search">
-        <form action="/search">
-            <table cellpadding="0" cellspacing="0" style="width:100%;">
-                <tbody>
-                <tr>
-                    <td style="background-color:#fff; border:1px solid #CCC;"><input id="s_key" name="keyword" type="text" class="key" value="输入书名后搜索，宁可少字不要错字" onfocus="this.value=''"></td>
-                    <td style="width:35px; background-color:#0080C0; background-image:url('/static/index/picture/search.png'); background-repeat:no-repeat; background-position:center;cursor: pointer;"><input name="submit" type="submit" value="" class="go"></td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-    </div>
-{{/*    <div class="article">*/}}
-{{/*        <h2 class="title"><span>封面推荐</span></h2>*/}}
-{{/*        <div class="block">*/}}
-{{/*            <div class="block_img"><a href="/wapbook/10489.html"><img height=100 width=80 src="/static/index/picture/10489s.jpg" onerror="this.src='http://www.xbiquge.la/modules/article/images/nocover.jpg'"/></a></div>*/}}
-{{/*            <div class="block_txt">*/}}
-{{/*                <p><a href="/wapbook/10489.html"><h2>三寸人间</h2></a></p>*/}}
-{{/*                <p>作者：耳根</p>*/}}
-{{/*                <p><a href="/wapbook/10489.html">举头三尺无神明，掌心三寸是人间。这是耳根继《仙逆》《求魔》《我欲封天》《一念永恒》后，创作的第五部长篇小说《三寸人间》。</a></p>*/}}
-{{/*            </div>*/}}
-{{/*            <div style="clear:both"></div>*/}}
-{{/*        </div>*/}}
-{{/*    </div>*/}}
+    {{template "index/index/header.tpl" .}}
+
     <div id="list_info"></div>
 
     {{template "index/index/footer.tpl" .}}

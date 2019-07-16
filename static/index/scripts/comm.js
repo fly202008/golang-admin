@@ -23,7 +23,7 @@ document.writeln("</div>");
 }
 function showlogin() {//登陆
     if (getCookie("member_username")) {
-        document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/bookcase">会员中心</a><a href="/logout.php" class="login_topbtn c_index_login">退出</a></div>');
+        document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/member">会员中心</a><a href="/logout" class="login_topbtn c_index_login">退出</a></div>');
     } else {
         document.write('<div id="login_top"><a class="login_topbtn c_index_login" href="/login">登录</a><a href="/register" class="login_topbtn c_index_login">注册</a></div>');
     }
@@ -64,18 +64,17 @@ function putbookcase(bid)
 }
 
 //加入书签
-function putbookmark(bid, cid)
+function putbookmark(bid, cid, cname)
 {
     $.ajax({
         cache:false,
-        url:'/addbookcase/'+bid+'/'+cid+'.php',
-        success:function(data){
-            if('-1'==data){
-                alert('先登录再收藏！');
-            }else if('-2'==data){
-                alert('已收藏好多书了！');
+        url:'/addbookcase',
+        data:{bookId:bid,articleId:cid,articleName:cname},
+        success:function(re){
+            if(re == 1){
+                alert('收藏成功！');
             }else{
-                alert('加入书签成功！');
+                alert(re.msg);
             }
         },
         error:function(){

@@ -66,6 +66,7 @@ CREATE TABLE `go_book_case` (
   `article_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '章节书签ID',
   `user_id` int(11) NOT NULL COMMENT '用户ID',
   `addtime` int(10) unsigned NOT NULL COMMENT '添加时间',
+  `end_article_name` varchar(255) NOT NULL COMMENT '最后章节名称;为了少采集',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

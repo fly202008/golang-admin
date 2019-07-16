@@ -11,7 +11,7 @@ import (
 //)
 
 type Member struct {
-	Id uint `gorm:"primary_key"  json:"id" form:"id"`
+	Id int `gorm:"primary_key"  json:"id" form:"id"`
 	Username string `json:"username" form:"username"`
 	Password string `json:"password" form:"password"`
 	Email string `json:"email" form:"email"`

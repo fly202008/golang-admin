@@ -99,7 +99,7 @@ func (this *IndexController)Book() {
 	this.Data["json"] = list
 	this.fetch()
 }
-// 章节内容页
+// 章节内容页 @bookid 书籍id;  @articleid 文章id
 func (this *IndexController)Article() {
 	bookid,_ := this.GetInt("bookid")
 	articleid,_ := this.GetInt("articleid")
@@ -215,13 +215,59 @@ func (this *IndexController) Login() {
 			this.JsonReuturn(0, "登录失败，账号或密码错误")
 		} else {
 			this.Ctx.SetCookie("member_username", username, 30 * 86000)
+			this.Ctx.SetCookie("member_id", strconv.Itoa(member.Id), 30 * 86000)
 			this.JsonReuturn(1, "登录成功")
 		}
 	}
 	this.fetch()
 }
 
+// 退出
+func (this *IndexController) Logout() {
+	this.Ctx.SetCookie("member_id","")
+	this.Ctx.SetCookie("member_username","")
+}
 
+// 个人中心，书签页
+func (this *IndexController) Member() {
+	uidtmp := this.Ctx.GetCookie("member_id")
+	uid,_ := strconv.Atoi(uidtmp)
+	re,_ := new(index.BookCase).FindAll(uid)
+	this.Data["json"] = re
+	this.fetch()
+}
+
+// 添加书签
+func (this *IndexController) AddBookCase() {
+	if this.Ctx.Input.IsAjax() {
+		bookId,_ := this.GetInt("bookId")
+		articleId,_ := this.GetInt("articleId")
+		articleName := this.GetString("articleName")
+		uid := this.Ctx.GetCookie("member_id")
+		user_id,_ := strconv.Atoi(uid)
+		data := index.BookCase{BookId:bookId,ArtileId:articleId,EndArticleName:articleName,UserId:user_id}
+
+		code,msg := new(index.BookCase).Add(data)
+		this.JsonReuturn(code, msg)
+	} else {
+		this.JsonReuturn(0, "请求类型错误")
+	}
+}
+
+// 删除书签
+func (this *IndexController) DelBookCase(bookId int) {
+	if this.Ctx.Input.IsAjax() {
+		uid := this.Ctx.GetCookie("member_id")
+		user_id,_ := strconv.Atoi(uid)
+		code,msg := new(index.BookCase).Del(bookId,user_id)
+		this.JsonReuturn(code, msg)
+	} else {
+		this.JsonReuturn(0, "请求类型错误")
+	}
+}
+
+
+// 结构体
 
 // 栏目
 type Classify struct {
@@ -360,8 +406,7 @@ func copyListTotal(listUrl string) (total2 int) {
 	return
 }
 
-// 书籍列表，page默认=1，limit只能是10
-// @typeid 分类ID; @page 分页，默认=1
+// 书籍列表，page默认=1，limit只能是10  @typeid 分类ID; @page 分页，默认=1
 func copyList(typeid,page int) (re []BookList) {
 	weburl := copyUrl+CopyListUrl[0]+strconv.Itoa(typeid)+CopyListUrl[2]+strconv.Itoa(page)+CopyListUrl[3]
 	c := colly.NewCollector(
@@ -404,8 +449,7 @@ func copyList(typeid,page int) (re []BookList) {
 	return
 }
 
-// 书籍介绍页
-// @bookid 书籍ID;
+// 书籍介绍页 @bookid 书籍ID;
 func copyBookContent(id int) (re Book) {
 	weburl := copyUrl + "/book/" + strconv.Itoa(id) + "/"
 
@@ -466,8 +510,7 @@ func copyBookContent(id int) (re Book) {
 	return
 }
 
-// 书籍章节列表
-// @bookid 书籍ID;
+// 书籍章节列表 @bookid 书籍ID;
 func copyBooklist(bookid int) (re []ChapterList) {
 	weburl := copyUrl + booklist + strconv.Itoa(bookid) + ".html"
 
@@ -499,8 +542,7 @@ func copyBooklist(bookid int) (re []ChapterList) {
 	return
 }
 
-// 书籍章节内容页
-// @bookid 书籍ID;  @articleid  章节ID;
+// 书籍章节内容页 @bookid 书籍ID;  @articleid  章节ID;
 func copyBookArticle(bookid,articleid int) (re BookArticle) {
 	weburl := copyUrl2 + bookarticledir + strconv.Itoa(bookid) + "/" + strconv.Itoa(articleid) + ".html"
 	c := colly.NewCollector(
@@ -533,8 +575,7 @@ func copyBookArticle(bookid,articleid int) (re BookArticle) {
 	return
 }
 
-// 获取搜索数据
-// @keyword 关键字;  @page 分页，默认=1
+// 获取搜索数据 @keyword 关键字;  @page 分页，默认=1
 func copySearchBook(keyword string, page int) (re []BookSearch) {
 	weburl := "https://sou.xanbhx.com/search?siteid=qula&t=m&q="+keyword+"&page=" + strconv.Itoa(page)
 

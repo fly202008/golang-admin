@@ -29,7 +29,7 @@ type UserWhere struct{
 
 // 如果你的 struct 实现了接口 validation.ValidFormer
 // 当 StructTag 中的测试都成功时，将会执行 Valid 函数进行自定义验证
-func (this User) Valid(v *validation.Validation) {
+func (this *User) Valid(v *validation.Validation) {
 	if this.Id == 0 && this.Username == "" {
 		// 通过 SetError 设置 Name 的错误信息，HasErrors 将会返回 true
 		v.SetError("用户名", "不能为空")

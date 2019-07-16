@@ -38,7 +38,7 @@ type TypeWhere struct{
 
 // 如果你的 struct 实现了接口 validation.ValidFormer
 // 当 StructTag 中的测试都成功时，将会执行 Valid 函数进行自定义验证
-func (this Type) Valid(v *validation.Validation) {
+func (this *Type) Valid(v *validation.Validation) {
 	if this.Name == "" {
 		// 通过 SetError 设置 Name 的错误信息，HasErrors 将会返回 true
 		v.SetError("栏目名", "不能为空")
@@ -50,7 +50,7 @@ func (this Type) Valid(v *validation.Validation) {
 }
 
 // 列表
-func (this Type) FindAll(where TypeWhere) (re []Type, count int) {
+func (this *Type) FindAll(where TypeWhere) (re []Type, count int) {
 	var query string = ""
 	if where.Is_navi != 0 {
 		query += " AND is_navi = "+ strconv.Itoa(where.Is_navi)
@@ -66,7 +66,7 @@ func (this Type) FindAll(where TypeWhere) (re []Type, count int) {
 	return
 }
 
-func (this Type) GetList() (re []Type) {
+func (this *Type) GetList() (re []Type) {
 	err := Db.Find(&re).Error
 	if err != nil {
 		log.Println(err)
@@ -75,7 +75,7 @@ func (this Type) GetList() (re []Type) {
 }
 
 // 栏目tree
-func (this Type) DataTree() (re []*TypeList) {
+func (this *Type) DataTree() (re []*TypeList) {
 	//err := Db.Order("weight desc, id").Find(&re).Error
 	//if err != nil {
 	//	log.Println(err)
@@ -89,7 +89,7 @@ func (this Type) DataTree() (re []*TypeList) {
 	return
 }
 // 设置栏目tree
-func (this Type) SetTree(pid int) ([]*TypeList) {
+func (this *Type) SetTree(pid int) ([]*TypeList) {
 	var data []Type
 	err := Db.Order("weight desc, id").Find(&data).Error
 	if err != nil {
@@ -120,7 +120,7 @@ func (this Type) SetTree(pid int) ([]*TypeList) {
 	//return this.sortTree(data2)
 }
 // 排序
-func (this Type) sortTree(data []Type) (re []Type) {
+func (this *Type) sortTree(data []Type) (re []Type) {
 	//var data2 []Type
 	for _,v := range data {
 		fmt.Println(v)

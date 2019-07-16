@@ -41,6 +41,15 @@ func init() {
 	beego.Router("/register", &index.IndexController{}, "*:Register")
 	// login
 	beego.Router("/login", &index.IndexController{}, "*:Login")
+	// 会员页，书签页
+	beego.Router("/member", &index.IndexController{}, "get:Member")
+	// 添加书签
+	beego.Router("/addbookcase", &index.IndexController{}, "get:AddBookCase")
+	// 删除书签
+	beego.Router("/delbookcase", &index.IndexController{}, "get:DelBookCase")
+
+	// 退出
+	beego.Router("/logout", &index.IndexController{},"get:Logout")
 
 	//ns2 := beego.NewNamespace("/book",
 	//	// book首页

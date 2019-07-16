@@ -31,7 +31,7 @@
     <div id="main">
         {{range $k,$v := .list}}
         <div class="hot_sale">
-            <a href="/book/166522/">
+            <a href="/book?bookid={{$v.BookId}}">
                 <img class="lazy" src="{{$v.Image}}" onerror="this.src='/static/index/picture/nopic.gif'">
                 <p class="title">{{$v.Name}}</p>
                 <p class="author">作者：{{$v.Author}}</p>
