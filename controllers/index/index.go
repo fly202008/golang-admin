@@ -1,10 +1,12 @@
 package index
 
 import (
+	"crypto/tls"
 	"fmt"
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/debug"
 	"math/rand"
+	"net/http"
 	"quickstart/models/admin"
 	"quickstart/models/index"
 	"quickstart/pkg/d"
@@ -609,6 +611,9 @@ func copySearchBook(keyword string, page int) (re []BookSearch) {
 	// User-Agent
 	c.OnRequest(func(r *colly.Request) {
 		r.Headers.Set("User-Agent", RandomString())
+	})
+	c.WithTransport(&http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	})
 	// 获取单本数据地址
 	c.OnHTML(".mybook .hot_sale", func(e *colly.HTMLElement) {

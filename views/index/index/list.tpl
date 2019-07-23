@@ -74,7 +74,7 @@
     <a href="#top"><svg class="lnr lnr-arrow-up-circle"><use xlink:href="#lnr-arrow-up-circle"></use></svg></a>
     <p class="version channel">
         <a href="/">首页</a>
-        <a href="/" onclick="beforeBookCase(this)">我的书架</a>
+        <a href="/member">我的书架</a>
     </p>
 </footer>
 

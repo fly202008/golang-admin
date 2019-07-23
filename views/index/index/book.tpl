@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>{{.data.Name}}小说_{{.data.Author}}_{{.data.Name}}最新章节_{{.data.Name}}无弹窗_新笔趣阁</title>
+    <title>{{.data.Name}}小说_{{.data.Author}}_{{.data.Name}}最新章节_{{.data.Name}}无弹窗_{{.data.Name}}</title>
     <meta name="keywords" content="{{.data.Name}},{{.data.Name}}最新章节" />
-    <meta name="description" content="如果您喜欢小说{{.data.Name}}，请将{{.data.Name}}最新章节目录加入收藏方便您下次阅读,新笔趣阁将在第一时间更新小说{{.data.Name}}，发现没及时更新，请告知我们,谢谢!" />
+    <meta name="description" content="如果您喜欢小说{{.data.Name}}，请将{{.data.Name}}最新章节目录加入收藏方便您下次阅读,{{.data.Name}}将在第一时间更新小说{{.data.Name}}，发现没及时更新，请告知我们,谢谢!" />
     <meta name="MobileOptimized" content="240"/>
     <meta name="applicable-device" content="mobile"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
