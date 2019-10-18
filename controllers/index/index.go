@@ -389,6 +389,9 @@ func copyClassList (id int) (re []Classify) {
 	c.OnRequest(func(r *colly.Request) {
 		r.Headers.Set("User-Agent", RandomString())
 	})
+	c.WithTransport(&http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	})
 	// 获取单本数据地址
 	c.OnHTML(".sortChannel_nav a", func(e *colly.HTMLElement) {
 		ch := e.DOM
